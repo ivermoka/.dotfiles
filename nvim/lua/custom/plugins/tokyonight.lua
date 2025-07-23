@@ -12,12 +12,19 @@ return {
         styles = {
           comments = { italic = false }, -- Disable italics in comments
         },
+        on_highlights = function(highlights, colors)
+          -- Make Normal text bright white
+          highlights.Normal = { fg = '#ffffff', bg = colors.bg }
+
+          -- Make comments brighter gray (you can adjust this)
+          highlights.Comment = { fg = '#b5b5b5', italic = false }
+        end,
       }
 
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight-storm'
     end,
   },
 }

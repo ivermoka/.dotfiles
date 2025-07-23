@@ -51,4 +51,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- vim: ts=2 sts=2 sw=2 et
+-- [[ Window Commands ]]
+
+vim.keymap.set('n', '<leader>tt', ':split | terminal<CR>', { desc = 'Terminal (horizontal)' })
+vim.keymap.set('n', '<leader>tv', ':vsplit | terminal<CR>', { desc = 'Terminal (vertical)' })
+
+-- Next buffer on Tab
+vim.api.nvim_set_keymap('n', 'g<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+
+-- Previous buffer on Shift+Tab
+vim.api.nvim_set_keymap('n', 'g<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
+
+-- Delete current buffer
+
+vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
