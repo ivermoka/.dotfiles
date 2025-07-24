@@ -20,10 +20,10 @@ return {
             '╚═════════════════════════════════╝',
           },
           center = {
-            { icon = '  ', desc = 'Find File', action = 'Telescope find_files' },
-            { icon = '  ', desc = 'Recent Files', action = 'Telescope oldfiles' },
+            { icon = '  ', desc = 'Find File', action = 'Telescope find_files' },
+            { icon = '  ', desc = 'Recent Files', action = 'Telescope oldfiles' },
             { icon = '  ', desc = 'File Explorer', action = 'Neotree toggle' },
-            { icon = '  ', desc = 'Find Word', action = 'Telescope live_grep' },
+            { icon = '  ', desc = 'Find Word', action = 'Telescope live_grep' },
           },
           footer = { '⚡ Powered by Neovim' },
         },
