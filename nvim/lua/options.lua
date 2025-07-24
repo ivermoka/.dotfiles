@@ -9,6 +9,11 @@ vim.o.number = true
 --  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
 
+vim.cmd [[
+  highlight BufferLineBufferSelected guifg=#ffffff guibg=NONE ctermfg=white ctermbg=NONE gui=bold
+  highlight BufferLineTabSelected guifg=#ffffff guibg=NONE ctermfg=white ctermbg=NONE gui=bold
+]]
+
 vim.o.showtabline = 2
 
 -- Enable mouse mode, can be useful for resizing splits for example!
