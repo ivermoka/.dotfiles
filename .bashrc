@@ -2,6 +2,7 @@ export PATH="$PATH:$HOME/go/bin"
 export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export NVM_DIR="$HOME/.config/nvm"
 
 ###############################################
 # Minimal devbox .bashrc. Add user custom stuff
@@ -60,3 +61,15 @@ function gnb() {
     git checkout -b "$1"
   fi
 }
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="/home/iverk/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
