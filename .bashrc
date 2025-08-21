@@ -75,13 +75,13 @@ if ! command -v nvim &>/dev/null; then
         echo "[bashrc] Neovim AppImage not found at $NVIM_APPIMAGE"
     fi
 fi
-
-if ! tmux has-session 2>/dev/null; then
-    tmux new-session -d
+if [ -n "$TMUX" ]; then
+  echo "Already inside tmux, not starting another session."
+else
+  if ! tmux; then
+    echo "Entering Tmux failed :("
+  fi
 fi
-tmux source-file ~/.tmux.conf
-
-
 #####################################
 # Helper functions 
 #####################################
