@@ -37,9 +37,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Window Commands ]]
 
-vim.keymap.set('n', '<leader>tt', ':split | terminal<CR>', { desc = 'Terminal (horizontal)' })
-vim.keymap.set('n', '<leader>tv', ':vsplit | terminal<CR>', { desc = 'Terminal (vertical)' })
-
 -- Next buffer on Tab
 vim.api.nvim_set_keymap('n', 'g<Tab>', ':bnext<CR>', { noremap = true, silent = true })
 

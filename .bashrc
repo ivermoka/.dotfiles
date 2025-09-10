@@ -43,7 +43,8 @@ alias gb="git branch -a"
 
 alias cdp="cd ~/projects/"
 alias cdpd="cd ~/projects/driftsdata-service"
-
+alias cdp.d="cd ~/projects/.dotfiles"
+alias cdp.v="cd ~/projects/.dotfiles/nvim"
 
 alias bashrc="nvim ~/.bashrc"
 alias brc="bashrc"
@@ -54,7 +55,6 @@ alias srct="tmux source-file ~/.tmux.conf"
 
 alias v="nvim"
 alias v.="nvim ."
-
 
 #########################################
 # Nvim and tmux setup ++
@@ -82,6 +82,7 @@ else
     echo "Entering Tmux failed :("
   fi
 fi
+
 #####################################
 # Helper functions 
 #####################################
@@ -103,6 +104,13 @@ function help() {
   echo "  cdpd    → cd ~/projects/driftsdata-service"
   echo "  bashrc / brc  → vim ~/.bashrc"
   echo "  gnb     → git checkout -b <branch-name>"
+}
+
+function processes() {
+	echo "Prosesses:"
+	echo "	ps aux - show processes"
+	echo "	sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
+	echo "	sudo lsof -i -P -n - active processes. Network files (TCP/UDP etc), port numbers, no hostnames"
 }
 
 
