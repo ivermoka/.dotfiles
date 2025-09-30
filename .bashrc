@@ -5,7 +5,12 @@
 # Exports
 ################################
 
-export PATH="$PATH:$HOME/go/bin"
+export ALACRITTY_CONFIG="/mnt/c/Users/iverk/AppData/Roaming/alacritty/alacritty.yml"
+
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -111,6 +116,7 @@ function processes() {
 	echo "	ps aux - show processes"
 	echo "	sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
 	echo "	sudo lsof -i -P -n - active processes. Network files (TCP/UDP etc), port numbers, no hostnames"
+	echo "  sudo lsof -nP -iTCP:<port> -sTCP:LISTEN - for ports"
 }
 
 
