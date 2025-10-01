@@ -71,8 +71,6 @@ echo -e "\033[1;32m👋 Welcome, $(whoami)! Slay the day 💻\033[0m"
 NVIM_APPIMAGE="$HOME/nvim-linux-x86_64.appimage"
 
 if ! command -v nvim &>/dev/null; then
-    echo "[bashrc] Neovim not found — setting up AppImage..."
-    
     if [ -f "$NVIM_APPIMAGE" ]; then
         sudo chmod +x "$NVIM_APPIMAGE"
         alias nvim="$NVIM_APPIMAGE"
@@ -87,6 +85,9 @@ else
     echo "Entering Tmux failed :("
   fi
 fi
+
+# Init go
+./go-init.sh
 
 #####################################
 # Helper functions 
