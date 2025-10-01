@@ -15,10 +15,10 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
-vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
-vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
-vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
+vim.keymap.set('n', '<leader>wh', '<C-w>H', { desc = 'Move window to the left' })
+vim.keymap.set('n', '<leader>wl', '<C-w>L', { desc = 'Move window to the right' })
+vim.keymap.set('n', '<leader>wj', '<C-w>J', { desc = 'Move window to the bottom' })
+vim.keymap.set('n', '<leader>wk', '<C-w>K', { desc = 'Move window to the top' })
 
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd('TextYankPost', {
