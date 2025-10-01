@@ -30,6 +30,7 @@ return {
         end
       end,
       formatters_by_ft = {
+        kotlin = { 'ktlint' },
         lua = { 'stylua' },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },

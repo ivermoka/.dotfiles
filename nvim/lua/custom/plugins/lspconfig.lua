@@ -208,10 +208,19 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
+        gopls = {},
+        kotlin_language_server = {
+          cmd = { 'kotlin-language-server' },
+          filetypes = { 'kotlin' },
+        },
+        jdtls = {},
+
+        ts_ls = {},
+        jsonls = {},
+        yamlls = {},
+        html = {},
+        cssls = {},
+
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -252,7 +261,20 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        -- LSPs
+        'kotlin_language_server',
+        'lua_ls',
+        'ts_ls',
+        'jsonls',
+        'yamlls',
+        'html',
+        'cssls',
+
+        -- Formatters / Linters
+        'ktlint',
+        'prettier',
+        'eslint_d',
+        'stylua',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
