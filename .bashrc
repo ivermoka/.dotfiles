@@ -16,6 +16,7 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export NVM_DIR="$HOME/.config/nvm"
 
+export PATH="$HOME/local/kotlinc/bin:$PATH"
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -87,7 +88,7 @@ else
 fi
 
 # Init go
-./go-init.sh
+~/projects/.dotfiles/go-init.sh
 
 #####################################
 # Helper functions 
