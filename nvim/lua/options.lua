@@ -10,6 +10,7 @@ vim.o.showmode = true
 
 -- Enable break indent
 vim.o.breakindent = true
+vim.lsp.set_log_level 'debug'
 
 vim.o.undofile = true
 

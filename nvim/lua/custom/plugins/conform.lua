@@ -7,31 +7,27 @@ return {
       {
         '<leader>f',
         function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
+          require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
         desc = '[F]ormat buffer',
       },
     },
     opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
-        end
-      end,
+      notify_on_error = true,
+      --[[ log_level = 'debug', ]]
+      format_on_save = { -- synchronous formatting
+        lsp_fallback = true,
+        timeout_ms = 15000,
+        async = false,
+      },
+      format_after_save = { -- asynchronous formatting
+        lsp_fallback = true,
+        timeout_ms = 15000,
+      },
       formatters_by_ft = {
-        kotlin = { 'ktlint' },
         lua = { 'stylua' },
+        kotlin = { 'ktlint' },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
