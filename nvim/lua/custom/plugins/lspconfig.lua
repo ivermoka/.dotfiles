@@ -209,9 +209,7 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         gopls = {},
-        kotlin_language_server = {
-          cmd = { 'kotlin-language-server', '--log-level', 'DEBUG' },
-        },
+        kotlin_language_server = {},
         jdtls = {},
 
         ts_ls = {},
@@ -276,11 +274,15 @@ return {
         'eslint_d',
         'stylua',
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      require('mason-tool-installer').setup {
+        ensure_installed = ensure_installed,
+        auto_update = true,
+
+        run_on_start = true,
+      }
 
       require('mason-lspconfig').setup {
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        automatic_installation = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
