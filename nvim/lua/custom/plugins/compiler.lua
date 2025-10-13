@@ -12,8 +12,8 @@ return {
     opts = {
       task_list = {
         direction = 'bottom',
-        min_height = 25,
-        max_height = 25,
+        min_height = 10,
+        max_height = 15,
         default_detail = 1,
       },
     },
