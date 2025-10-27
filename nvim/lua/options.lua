@@ -10,13 +10,21 @@ vim.o.showmode = true
 
 -- Enable break indent
 vim.o.breakindent = true
-vim.lsp.set_log_level 'error'
 
 vim.o.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.o.ignorecase = true
 vim.o.smartcase = true
+
+vim.o.history = 100
+local notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if type(msg) == 'string' and msg:match '-32603' then
+    return -- silently ignore that message
+  end
+  notify(msg, level, opts)
+end
 
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'

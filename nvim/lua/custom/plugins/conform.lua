@@ -32,6 +32,8 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        xml = { 'xmlformatter', stop_after_first = true },
+        yaml = { 'yamlfmt', stop_after_first = true },
       },
     },
   },
