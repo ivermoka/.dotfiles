@@ -33,15 +33,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- [[ Window Commands ]]
+-- Move between buffers
+vim.api.nvim_set_keymap('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-l>', ':bnext<CR>', { noremap = true, silent = true })
 
--- Next buffer on Tab
-vim.api.nvim_set_keymap('n', 'g<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+-- Previous buffer
+vim.api.nvim_set_keymap('n', '<C-h>', '<C-O>', { noremap = true, silent = true })
 
--- Previous buffer on Shift+Tab
-vim.api.nvim_set_keymap('n', 'g<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-l>', '<C-I>', { noremap = true, silent = true })
 
 -- Delete current buffer
-
 vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
 
 -- Go to Neo-tree (left)
@@ -49,19 +50,3 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Go to left window (Neo-tree)' }
 
 -- Go to editor (right)
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Go to right window (Editor)' })
-
--- [[ Compiler.lua ]]
-
-vim.api.nvim_set_keymap('n', '<leader>c', '<cmd>CompilerOpen<cr>', { noremap = true, silent = true })
-
--- Redo last selected option
-vim.api.nvim_set_keymap(
-  'n',
-  '<S-F6>',
-  '<cmd>CompilerStop<cr>' -- (Optional, to dispose all tasks before redo)
-    .. '<cmd>CompilerRedo<cr>',
-  { noremap = true, silent = true }
-)
-
--- Toggle compiler results
-vim.api.nvim_set_keymap('n', '<S-F7>', '<cmd>CompilerToggleResults<cr>', { noremap = true, silent = true })
