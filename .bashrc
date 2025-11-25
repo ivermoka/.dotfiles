@@ -88,7 +88,7 @@ else
 fi
 
 # Init go
-~/projects/.dotfiles/go-init.sh
+~/projects/.dotfiles/scripts/go-init.sh
 
 #####################################
 # Helper functions 
