@@ -23,6 +23,9 @@ return {
         },
         border = 'right',
       },
+      filtered_items = {
+        visible = true,
+      },
     },
   },
 }
