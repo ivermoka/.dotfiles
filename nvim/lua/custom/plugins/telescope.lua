@@ -57,6 +57,9 @@ return {
             hidden = true,
             file_ignore_patterns = { '.git/' },
           },
+          oldfiles = {
+            cwd_only = true,
+          },
         },
         extensions = {
           ['ui-select'] = {
