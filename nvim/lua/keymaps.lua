@@ -32,6 +32,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.keymap.set('n', '<leader>tT', ':Themery<CR>', { noremap = true, desc = 'Open Themery plugin' })
+
 -- [[ Window Commands ]]
 -- Move between buffers
 vim.api.nvim_set_keymap('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true })

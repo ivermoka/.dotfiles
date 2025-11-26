@@ -17,6 +17,8 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+vim.o.termguicolors = true
+
 vim.o.history = 100
 local notify = vim.notify
 vim.notify = function(msg, level, opts)

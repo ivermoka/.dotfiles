@@ -23,9 +23,11 @@ return {
             { icon = '  ', desc = 'Find File', action = 'Telescope find_files' },
             { icon = '  ', desc = 'Recent Files', action = 'Telescope oldfiles' },
             { icon = '  ', desc = 'File Explorer', action = 'Neotree toggle' },
-            { icon = '  ', desc = 'Find Word', action = 'Telescope live_grep' },
+            { icon = '  ', desc = 'Grep', action = 'Telescope live_grep' },
+            { icon = '  ', desc = 'LazyGit', action = 'LazyGit' },
+            { icon = '  ', desc = 'Edit Config', action = 'edit ~/.config/nvim/' },
           },
-          footer = { '⚡ Powered by Neovim' },
+          footer = { '  Powered by milk' },
         },
       }
     end,
