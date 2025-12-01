@@ -1,2 +1,3 @@
-ln -s ~/projects/.dotfiles/bashrc ~/.bashrc
-ln -s ~/projects/.dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/projects/.dotfiles/config/bashrc ~/.bashrc
+ln -s ~/projects/.dotfiles/config/.bashrc.d ~/.bashrc.d
+ln -s ~/projects/.dotfiles/config/tmux.conf ~/.tmux.conf
