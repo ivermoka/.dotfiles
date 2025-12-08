@@ -27,7 +27,12 @@ return {
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        kotlin = { 'ktlint' },
+        kotlin = {
+          exe = 'ktlint',
+          args = { '--format' },
+          stdin = true,
+          ignore_exitcode = true,
+        },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
