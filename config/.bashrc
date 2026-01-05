@@ -11,3 +11,8 @@ fi
 
 
 echo -e "\033[1;32m👋 Welcome, $(whoami)! Slay the day 💻\033[0m"
+
+# Go setup
+export PATH="/usr/local/go/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin"

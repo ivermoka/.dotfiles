@@ -213,6 +213,7 @@ return {
             },
           },
         },
+        -- sonarlint-language-server = {},
       }
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
@@ -224,6 +225,7 @@ return {
         'yamlls',
         'html',
         'cssls',
+        'sonarlint-language-server',
 
         -- Formatters / Linters
         'ktlint',
