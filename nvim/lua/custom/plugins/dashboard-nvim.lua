@@ -26,6 +26,7 @@ return {
             { icon = '  ', desc = 'Grep', action = 'Telescope live_grep' },
             { icon = '  ', desc = 'LazyGit', action = 'LazyGit' },
             { icon = '  ', desc = 'Edit Config', action = 'edit ~/.config/nvim/' },
+            { icon = '  ', desc = 'Edit dotfiles', action = 'edit ~/projects/.dotfiles/' },
           },
           footer = { '  Powered by milk' },
         },

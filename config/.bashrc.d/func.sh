@@ -20,11 +20,12 @@ function help() {
   echo "  gb      → git branch -a"
   echo "  cdp     → cd ~/projects/"
   echo "  cdpd    → cd ~/projects/driftsdata-service"
+  echo "  close   → close specific port, using 'kill -9(lsof ...)'"
   echo "  bashrc / brc  → vim ~/.bashrc"
-  echo "  gnb     → git checkout -b <branch-name>"
+  echo "  proc    → processes helper command"
 }
 
-function processes() {
+function proc() {
 	echo "Prosesses:"
 	echo "	ps aux - show processes"
 	echo "	sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
@@ -32,12 +33,26 @@ function processes() {
 	echo "  sudo lsof -nP -iTCP:<port> -sTCP:LISTEN - for ports"
 }
 
+function close() {
+	local port="$1"
 
-function gnb() {
-  if [ -z "$1" ]; then
-    echo "❌ Usage: gnb <branch-name>"
-  else
-    git checkout -b "$1"
-  fi
+	if [[ -z "$port" ]]; then 
+		echo "Missing port arg"
+		return 1
+	fi
+
+	local pids
+	pids=$(lsof -t -i :"$port")
+
+	if [[ -z "$pids" ]]; then
+	    	echo "No process running on port $port"
+	    	return 0
+	fi
+	kill -9 $pids
 }
 
+# Language specific
+
+function kt() {
+	kotlinc $1 -include-runtime -d app.jar && java -jar app.jar
+}
