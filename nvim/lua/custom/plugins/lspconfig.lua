@@ -230,6 +230,7 @@ return {
         -- Formatters / Linters
         'ktlint',
         'prettier',
+        'prettierd',
         'eslint_d',
         'stylua',
         'xmlformatter',

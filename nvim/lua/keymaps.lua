@@ -3,8 +3,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>qq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.keymap.set('n', '<leader>qj', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic (error/warning)' })
-vim.keymap.set('n', '<leader>qk', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic (error/warning)' })
+vim.keymap.set('n', 'gj', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic (error/warning)' })
+vim.keymap.set('n', 'gk', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic (error/warning)' })
 
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
@@ -22,6 +22,8 @@ vim.keymap.set('n', '<leader>wh', '<C-w>H', { desc = 'Move window to the left' }
 vim.keymap.set('n', '<leader>wl', '<C-w>L', { desc = 'Move window to the right' })
 vim.keymap.set('n', '<leader>wj', '<C-w>J', { desc = 'Move window to the bottom' })
 vim.keymap.set('n', '<leader>wk', '<C-w>K', { desc = 'Move window to the top' })
+
+vim.keymap.set('n', '<leader>st', ':TodoQuickFix<CR>', { noremap = true, desc = 'Todo quick fix list' })
 
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd('TextYankPost', {
