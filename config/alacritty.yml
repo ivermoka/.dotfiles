@@ -52,3 +52,14 @@ mouse_bindings:
   - {mouse: Right, action: PasteSelection}
 key_bindings:
   - {key: V, mods: Control, mode: ~Vi, action: Paste}
+shell:
+  program: wsl
+  args:
+    - --user
+    - iverk  
+    - -d
+    - docker-statnett
+    - --cd
+    - "~"
+    - zsh
+
