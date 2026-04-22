@@ -1,0 +1,5 @@
+alias lg="lazygit"
+alias cdp="cd ~/projects/"
+alias cdpp="cd\p"
+alias v="nvim"
+alias v.="nvim ."
