@@ -7,6 +7,32 @@ return {
 
       themery.setup {
         themes = {
+	{
+		name = 'Carbonfox',
+		colorscheme = 'carbonfox',
+		before = [[ require('nightfox') ]],
+	},
+		{
+		name = 'Nordfox',
+		colorscheme = 'nordfox',
+		before = [[ require('nightfox') ]],
+	},
+	{
+		name = 'Duskfox',
+		colorscheme = 'duskfox',
+		before = [[ require('nightfox') ]],
+	},
+	{
+		name = 'Terafox',
+		colorscheme = 'terafox',
+		before = [[ require('nightfox') ]],
+	},
+	{
+		name = 'Nightfox',
+		colorscheme = 'nightfox',
+		before = [[ require('nightfox') ]],
+	},
+
           {
             name = 'Tokyonight Storm',
             colorscheme = 'tokyonight-storm',
@@ -132,6 +158,10 @@ return {
 
       themery.setThemeByName('Tokyonight Storm', true)
     end,
+  },
+  {
+    'EdenEast/nightfox.nvim',
+     lazy = false,
   },
   {
     'folke/tokyonight.nvim',
