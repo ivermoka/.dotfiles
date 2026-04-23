@@ -1,5 +1,5 @@
 alias lg="lazygit"
 alias cdp="cd ~/projects/"
-alias cdpp="cd\p"
+alias cdpp="find ~/projects -maxdepth 1 -mindepth 1 -type d | fzf --bind 'enter:become(nvim {})'"
 alias v="nvim"
 alias v.="nvim ."
