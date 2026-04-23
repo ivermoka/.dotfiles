@@ -6,7 +6,7 @@ vim.keymap.set('n', '<leader>qq', vim.diagnostic.setloclist, { desc = 'Open diag
 vim.keymap.set('n', 'gj', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic (error/warning)' })
 vim.keymap.set('n', 'gk', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic (error/warning)' })
 
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<C-q>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')

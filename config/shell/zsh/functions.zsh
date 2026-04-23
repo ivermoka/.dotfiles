@@ -39,3 +39,8 @@ kt() {
 	kotlinc $1 -include-runtime -d app.jar && java -jar app.jar
 }
 
+cdpp() {
+  dir=$(find ~/projects -maxdepth 1 -mindepth 1 -type d | fzf --preview 'ls -la {}')
+  [ -n "$dir" ] && cd "$dir" && nvim .
+}
+
