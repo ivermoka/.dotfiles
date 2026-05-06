@@ -29,9 +29,6 @@ return {
   opts = {
     position = 'bot',
     size = 10,
-    startInserted = false,
-
-    -- TODO: Fix mapping
-    jump_tab_mapping = '<C-ø>',
+    startInserted = true,
   },
 }
