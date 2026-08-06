@@ -178,17 +178,6 @@ return {
 
       local servers = {
         gopls = {},
-        kotlin_language_server = {
-          root_dir = util.root_pattern('pom.xml', '.git'),
-
-          cmd = { 'kotlin-language-server', '-jvm-args', '-Xmx2G' },
-
-          settings = {
-            kotlin = {
-              compiler = { incremental = true },
-            },
-          },
-        },
         jdtls = {
           root_dir = util.root_pattern('pom.xml', '.git'),
 
@@ -196,16 +185,16 @@ return {
         },
 
         ts_ls = {
-            filetypes = {
-      "javascript",
-      "javascriptreact",
-      "typescript",
-      "typescriptreact",
-      "javascript.jsx",
-      "typescript.tsx",
-      "javascript.mjs",
-    },
+          filetypes = {
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
+            'javascript.jsx',
+            'typescript.tsx',
+            'javascript.mjs',
           },
+        },
         jsonls = {},
         yamlls = {},
         html = {},
@@ -228,7 +217,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- LSPs
-        'kotlin_language_server',
         'lua_ls',
         'ts_ls',
         'jsonls',
