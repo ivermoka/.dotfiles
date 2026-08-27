@@ -4,7 +4,7 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 # java
-export JAVA_HOME="$HOME/.sdkman/candidates/java/17.0.20-ms/bin/java"
+export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 
 # common tools
 export PATH="/usr/local/bin:$PATH"
@@ -30,3 +30,4 @@ export PATH="/snap/bin:$PATH"
 # opencode
 export PATH=/home/iverk/.opencode/bin:$PATH
 
+export PATH=/home/ivermk/.cargo/bin:$PATH

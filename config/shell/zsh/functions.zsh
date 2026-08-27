@@ -27,7 +27,6 @@ proc() {
 }
 
 close() {
-
   local port="$1"
 
   kill -9 $(lsof -t -i :"$port")
@@ -39,8 +38,19 @@ kt() {
 	kotlinc $1 -include-runtime -d app.jar && java -jar app.jar
 }
 
+# Helpers! 
+
 cdpp() {
-  dir=$(find ~/projects -maxdepth 1 -mindepth 1 -type d | fzf --preview 'ls -la {}')
-  [ -n "$dir" ] && cd "$dir" && nvim .
+	local base="${1:-$HOME/projects}"
+	local dir
+	dir=$(find "$base" -maxdepth 1 -mindepth 1 -type d | fzf --preview 'ls -la {}') || return
+  	cd "$dir"
+}
+
+conf() {
+	(
+		cd ~/projects/.dotfiles || exit
+		v
+		)
 }
 
