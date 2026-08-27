@@ -66,7 +66,7 @@ return {
         -- This is the JDK that your project code will be analyzed against
         -- (the server itself runs on bin/intellij-server's bundled JBR)
         -- Required for: Analyzing JDK APIs, standard library symbols, platform types
-        jdk_for_symbol_resolution = '/home/iverk/.sdkman/candidates/java/current',
+        jdk_for_symbol_resolution = os.getenv 'JAVA_HOME',
         jvm_args = {
           '-Xmx8g', -- Increase max heap (useful for large projects)
         },
