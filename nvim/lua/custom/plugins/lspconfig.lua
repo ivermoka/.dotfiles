@@ -158,7 +158,14 @@ return {
       -- Show line diagnostics automatically in hover window
       vim.o.updatetime = 250
 
-      vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+      -- NOTE: named + `clear = true` augroup so this doesn't re-register
+      -- (and stack duplicate autocmds) on `:Lazy reload`/config re-source.
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        group = vim.api.nvim_create_augroup('kickstart-lsp-diagnostic-float', { clear = true }),
+        callback = function()
+          vim.diagnostic.open_float(nil, { focus = false })
+        end,
+      })
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -243,6 +250,16 @@ return {
 
       require('mason-lspconfig').setup {
         automatic_installation = true,
+        -- mason-lspconfig v2 defaults to auto-`vim.lsp.enable()`-ing *any*
+        -- Mason-installed server that has a matching lspconfig config, even
+        -- if it's absent from `servers`/`handlers` below. This silently
+        -- started an unrelated, permanently-crash-looping `kotlin_lsp`
+        -- client (JetBrains Kotlin LSP, managed separately by kotlin.nvim
+        -- in custom/plugins/kotlin-lsp.lua) purely because its Mason
+        -- package was installed -- disabling it here restores the
+        -- explicit, single-owner model the `handlers` function below
+        -- assumes.
+        automatic_enable = false,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
