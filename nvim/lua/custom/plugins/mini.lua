@@ -17,20 +17,11 @@ return {
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      -- NOTE: mini.statusline is intentionally NOT enabled here.
+      -- lualine.nvim (custom/plugins/lualine.lua) is the single statusline
+      -- owner in this config; running both caused two plugins to fight over
+      -- `statusline`/`laststatus` with a non-deterministic winner depending
+      -- on lazy.nvim load order.
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim

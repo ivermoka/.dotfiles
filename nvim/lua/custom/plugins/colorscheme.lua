@@ -99,11 +99,10 @@ return {
               }
             ]],
           },
-        },
-        {
-          name = 'Kanagawa Wave',
-          colorscheme = 'kanagawa',
-          before = [[
+          {
+            name = 'Kanagawa Wave',
+            colorscheme = 'kanagawa',
+            before = [[
               require('kanagawa').setup {
                 compile = false,
                 background = 'dark',
@@ -125,11 +124,11 @@ return {
                 theme = 'wave',
               }
             ]],
-        },
-        {
-          name = 'Kanagawa Dragon',
-          colorscheme = 'kanagawa',
-          before = [[
+          },
+          {
+            name = 'Kanagawa Dragon',
+            colorscheme = 'kanagawa',
+            before = [[
               require('kanagawa').setup {
                 compile = false,
                 undercurl = true,
@@ -151,6 +150,7 @@ return {
                 theme = 'dragon',
               }
             ]],
+          },
         },
 
         livePreview = true,

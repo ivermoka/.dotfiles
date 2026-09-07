@@ -13,10 +13,9 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- NOTE: <C-hjkl> window-focus navigation and resize are handled by
+-- smart-splits.nvim (see custom/plugins/smart-splits.lua) so they can also
+-- cross into tmux panes at the edge of the Neovim layout.
 
 vim.keymap.set('n', '<leader>wh', '<C-w>H', { desc = 'Move window to the left' })
 vim.keymap.set('n', '<leader>wl', '<C-w>L', { desc = 'Move window to the right' })
@@ -44,16 +43,6 @@ vim.keymap.set('n', '<leader>tT', ':Themery<CR>', { noremap = true, desc = 'Open
 vim.api.nvim_set_keymap('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<S-l>', ':bnext<CR>', { noremap = true, silent = true })
 
--- Previous buffer
-vim.api.nvim_set_keymap('n', '<C-h>', '<C-O>', { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap('n', '<C-l>', '<C-I>', { noremap = true, silent = true })
-
--- Delete current buffer
-vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
-
--- Go to Neo-tree (left)
-vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Go to left window (Neo-tree)' })
-
--- Go to editor (right)
-vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Go to right window (Editor)' })
+-- Delete current buffer (kept off <C-w> so the native window-command
+-- prefix, e.g. <C-w>s/<C-w>v/<C-w>q/<C-w>=, stays fully usable)
+vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = '[B]uffer [D]elete' })

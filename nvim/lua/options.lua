@@ -21,9 +21,13 @@ vim.o.termguicolors = true
 
 vim.o.history = 100
 local notify = vim.notify
+-- Demote noisy LSP "-32603" (JSON-RPC internal error) messages to DEBUG
+-- instead of dropping them outright, so failed LSP requests are still
+-- visible via a notification history/log (e.g. `:Notifications`,
+-- `:messages`, or noice.nvim) rather than silently disappearing.
 vim.notify = function(msg, level, opts)
   if type(msg) == 'string' and msg:match '-32603' then
-    return -- silently ignore that message
+    level = vim.log.levels.DEBUG
   end
   notify(msg, level, opts)
 end
