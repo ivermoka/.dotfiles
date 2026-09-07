@@ -39,6 +39,22 @@ return {
       },
     },
   },
+  -- FIXED 2026-09-07: kotlin.nvim drives JetBrains' "Kotlin LSP" via
+  -- bin/intellij-server. The Mason package (github.com/Kotlin/kotlin-lsp
+  -- release build) is time-bombed EAP software that expires ~6 weeks after
+  -- release; mason-registry was still pinning the same expired
+  -- v262.9593.0 build (see github.com/Kotlin/kotlin-lsp/issues/271 -- a
+  -- known, recurring issue: the GH release lags well behind the VS Code
+  -- Marketplace build of the same server). The expired Mason package
+  -- (1.3G) was uninstalled.
+  --
+  -- Fix: kotlin.nvim supports pointing at a manually-installed server via
+  -- $KOTLIN_LSP_DIR (see kotlin.lua's cmd resolution) as a Mason
+  -- alternative. config/shell/zsh/exports.zsh sets
+  -- KOTLIN_LSP_DIR=~/.local/share/kotlin-lsp, populated by extracting the
+  -- newer, non-expired build (ILS-263.4421.0) bundled in the VS Code
+  -- Marketplace extension "JetBrains.kotlin-server" v0.0.11. Refresh that
+  -- directory (see exports.zsh comment) whenever it expires again.
   {
     'AlexandrosAlexiou/kotlin.nvim',
     ft = { 'kotlin' },
