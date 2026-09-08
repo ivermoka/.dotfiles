@@ -250,16 +250,7 @@ return {
 
       require('mason-lspconfig').setup {
         automatic_installation = true,
-        -- mason-lspconfig v2 defaults to auto-`vim.lsp.enable()`-ing *any*
-        -- Mason-installed server that has a matching lspconfig config, even
-        -- if it's absent from `servers`/`handlers` below. This silently
-        -- started an unrelated, permanently-crash-looping `kotlin_lsp`
-        -- client (JetBrains Kotlin LSP, managed separately by kotlin.nvim
-        -- in custom/plugins/kotlin-lsp.lua) purely because its Mason
-        -- package was installed -- disabling it here restores the
-        -- explicit, single-owner model the `handlers` function below
-        -- assumes.
-        automatic_enable = false,
+        automatic_enable = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
