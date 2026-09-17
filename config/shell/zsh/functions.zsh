@@ -1,25 +1,18 @@
 help() {
-  echo "📦 Developer Command List:"
-  echo "  gc      → git commit"
-  echo "  gca     → git commit -a"
-  echo "  gsa     → git stash -a"
-  echo "  gsA     → git stash apply"
-  echo "  gd      → git diff"
-  echo "  lg      → lazygit"
-  echo "  gp      → git push"
-  echo "  gP      → git pull"
-  echo "  gf      → git fetch"
-  echo "  gs      → git status"
-  echo "  gb      → git branch -a"
-  echo "  cdp     → cd ~/projects/"
-  echo "  cdpd    → cd ~/projects/driftsdata-service"
-  echo "  close   → close specific port, using 'kill -9(lsof ...)'"
-  echo "  bashrc / brc  → vim ~/.bashrc"
-  echo "  proc    → processes helper command:"
-  echo "      ps aux - show processes"
-  echo "      sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
-  echo "      sudo lsof -i -P -n - active processes. Network files (TCP/UDP etc), port numbers, no hostnames"
-  echo "      sudo lsof -nP -iTCP:<port> -sTCP:LISTEN - for ports"
+  echo "Aliases:"
+  alias | sed 's/^/  /'
+
+  echo
+  echo "Functions:"
+  grep -hoE '^[a-zA-Z_][a-zA-Z0-9_]*\(\)' ~/.config/zsh/*.zsh 2>/dev/null \
+    | sed 's/()//' | grep -vx help | sort -u | sed 's/^/  /'
+
+  echo
+  echo "Processes/ports:"
+  echo "  ps aux                                   - show processes"
+  echo "  sudo netstat -tuln                       - active connections (TCP/UDP, listening, numeric)"
+  echo "  sudo lsof -i -P -n                        - active processes with network files, no hostname lookup"
+  echo "  sudo lsof -nP -iTCP:<port> -sTCP:LISTEN   - find what's listening on <port>"
 }
 
 close() {
