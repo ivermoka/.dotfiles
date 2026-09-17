@@ -3,8 +3,10 @@ export PATH="$PATH:/usr/local/go/bin"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# java
-export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
+# java - follows whatever `javav` (update-alternatives) currently points java at
+if command -v java >/dev/null 2>&1; then
+    export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(command -v java)")")")"
+fi
 
 # common tools
 export PATH="/usr/local/bin:$PATH"
