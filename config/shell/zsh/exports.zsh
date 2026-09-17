@@ -32,7 +32,7 @@ export PATH="$HOME/local/kotlinc/bin:$PATH"
 export KOTLIN_LSP_DIR="$HOME/.local/share/kotlin-lsp"
 
 # pnpm
-export PNPM_HOME="/home/iverk/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
@@ -43,6 +43,6 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/snap/bin:$PATH"
 
 # opencode
-export PATH=/home/iverk/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
-export PATH=/home/ivermk/.cargo/bin:$PATH
+export PATH="$HOME/.cargo/bin:$PATH"

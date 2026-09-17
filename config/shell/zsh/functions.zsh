@@ -15,15 +15,11 @@ help() {
   echo "  cdpd    → cd ~/projects/driftsdata-service"
   echo "  close   → close specific port, using 'kill -9(lsof ...)'"
   echo "  bashrc / brc  → vim ~/.bashrc"
-  echo "  proc    → processes helper command"
-}
-
-proc() {
-	echo "Prosesses:"
-	echo "	ps aux - show processes"
-	echo "	sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
-	echo "	sudo lsof -i -P -n - active processes. Network files (TCP/UDP etc), port numbers, no hostnames"
-	echo "  sudo lsof -nP -iTCP:<port> -sTCP:LISTEN - for ports"
+  echo "  proc    → processes helper command:"
+  echo "      ps aux - show processes"
+  echo "      sudo netstat -tuln - active internet connections. TCP, UDP, listening sockets, numerical adresses"
+  echo "      sudo lsof -i -P -n - active processes. Network files (TCP/UDP etc), port numbers, no hostnames"
+  echo "      sudo lsof -nP -iTCP:<port> -sTCP:LISTEN - for ports"
 }
 
 close() {
