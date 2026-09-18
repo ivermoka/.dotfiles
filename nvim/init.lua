@@ -3,6 +3,11 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
+-- neo-tree replaces netrw; must be disabled before anything else touches it
+-- to avoid the two fighting over directory buffers.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- [[ Setting options ]]
 require 'options'
 
