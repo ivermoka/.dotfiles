@@ -6,8 +6,6 @@ INTERVAL="${DOTFILES_INSTALLER_INTERVAL:-86400}" # seconds, 1 day
 if [[ ! -f "$STAMP" ]] || (( $(date +%s) - $(stat -c %Y "$STAMP") > INTERVAL )); then
     PKGS=("npm" "golang" "python3" "python3.14-venv" "git" "tmux" "neovim" "fzf" "podman" "maven" "openjdk-17-jdk" "openjdk-17-jre" "ripgrep" "cargo" "lazygit")
 
-    sudo apt update
-
     # TODO: Add compatibility to arch
 
     for pkg in "${PKGS[@]}"; do
