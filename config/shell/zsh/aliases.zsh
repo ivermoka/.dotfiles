@@ -15,4 +15,4 @@ alias repair='mvn flyway:repair "-Dflyway.url=jdbc:oracle:thin:@//localhost:1521
 alias run='mvn spring-boot:run'
 alias ccompile='mvn clean compile'
 alias cinstall='mvn clean install'
-
+alias integ="./src/main/scripts/run-integration.sh"

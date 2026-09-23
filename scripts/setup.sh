@@ -15,3 +15,6 @@ ln -sf ~/projects/.dotfiles/config/tmux/.tmux.conf ~/.tmux.conf
 
 # Git
 ln -sf ~/projects/.dotfiles/config/git/.gitconfig ~/.gitconfig
+
+# Awesome
+ln -s ~/projects/.dotfiles/config/awesome ~/.config/awesome
