@@ -24,7 +24,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 local tyrannical = require("tyrannical")
+
+-- Custom modules
 local xrandr = require("xrandr")
+require("startup")
 
 -- }}}
 
@@ -75,21 +78,6 @@ end
 run_once({ "urxvtd", "unclutter -root" }) -- comma-separated entries
 
 -- {{{ Variable definitions
-
-local themes = {
-	"blackburn", -- 1
-	"copland", -- 2
-	"dremora", -- 3
-	"holo", -- 4
-	"multicolor", -- 5
-	"powerarrow", -- 6
-	"powerarrow-dark", -- 7
-	"rainbow", -- 8
-	"steamburn", -- 9
-	"vertex", -- 10
-}
-
-local chosen_theme = themes[7]
 local modkey = "Mod4"
 local altkey = "Mod1"
 local terminal = "alacritty"
@@ -177,7 +165,8 @@ awful.util.tasklist_buttons = mytable.join(
 	end)
 )
 
-beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+beautiful.init(string.format("%s/.config/awesome/theme/theme.lua", os.getenv("HOME")))
+beautiful.useless_gap = 2
 
 -- }}}
 
@@ -249,9 +238,9 @@ style_preset(naughty.config.presets.critical, {
 -- accented look as the notifications above.
 beautiful.menu_bg_normal = beautiful.bg_focus
 beautiful.menu_fg_normal = beautiful.fg_normal
-beautiful.menu_bg_focus = beautiful.fg_focus
-beautiful.menu_fg_focus = beautiful.bg_normal
-beautiful.menu_border_color = beautiful.border_focus
+beautiful.menu_bg_focus = beautiful.bg_focus
+beautiful.menu_fg_focus = beautiful.fg_normal
+beautiful.menu_border_color = beautiful.border_normal
 beautiful.menu_border_width = dpi(2)
 beautiful.menu_height = dpi(28)
 beautiful.menu_width = dpi(220)
@@ -432,12 +421,17 @@ local myawesomemenu = {
 }
 
 awful.util.mymainmenu = freedesktop.menu.build({
-	before = {
-		{ "Awesome", myawesomemenu, beautiful.awesome_icon },
-		-- other triads can be put here
-	},
 	after = {
 		{ "Open terminal", terminal },
+		{ "Sleep", "systemctl suspend" },
+		{ "Reboot", "systemctl reboot" },
+		{ "Shutdown", "systemctl poweroff" },
+		{
+			"XRandr menu",
+			function()
+				xrandr.popup()
+			end,
+		},
 		-- other triads can be put here
 	},
 })
@@ -479,23 +473,11 @@ awful.screen.connect_for_each_screen(function(s)
 	beautiful.at_screen_connect(s)
 end)
 
--- Notify (once) when a new screen appears so you know outputs changed.
--- `xrandr.menu()` only *builds* a list of arrangement commands, it doesn't
--- show anything by itself -- use the `xrandr.popup()` keybinding below (or
--- the dedicated "external monitor only" keybinding) to actually apply one.
-screen.connect_signal("added", function()
-	naughty.notify({
-		title = "Monitor added",
-		text = 'Press Mod+§ to choose an arrangement, or Alt+^ for "external only"',
-		timeout = 5,
-	})
-end)
-
 -- {{{ Key bindings
 
 globalkeys = mytable.join(
 	-- Clickable popup listing every output arrangement (click one to apply)
-	awful.key({ modkey }, "§", function()
+	awful.key({ altkey }, "±", function()
 		xrandr.popup()
 	end, { description = "xrandr menu", group = "hotkeys" }),
 	-- Destroy all notifications
@@ -728,8 +710,26 @@ globalkeys = mytable.join(
 		beautiful.volume.update()
 	end, { description = "volume 0%", group = "hotkeys" }),
 
+	-- Hardware volume keys
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		os.execute(string.format("amixer -q set %s 5%%+", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "volume up", group = "hotkeys" }),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		os.execute(string.format("amixer -q set %s 5%%-", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "volume down", group = "hotkeys" }),
+	awful.key({}, "XF86AudioMute", function()
+		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "toggle mute", group = "hotkeys" }),
+	awful.key({}, "F9", function()
+		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "toggle mute", group = "hotkeys" }),
+
 	-- MPD control
-	awful.key({ altkey, "Control" }, "Up", function()
+	awful.key({ altkey, "Control" }, "'", function()
 		os.execute("mpc toggle")
 		beautiful.mpd.update()
 	end, { description = "mpc toggle", group = "widgets" }),
