@@ -1,8 +1,12 @@
 --- Separating Multiple Monitor functions as a separeted module (taken from awesome wiki)
 
 local gtable = require("gears.table")
+local gshape = require("gears.shape")
 local spawn = require("awful.spawn")
 local naughty = require("naughty")
+local awful_menu = require("awful.menu")
+local awful_screen = require("awful.screen")
+local beautiful = require("beautiful")
 
 -- A path to a fancy icon
 local icon_path = ""
@@ -134,9 +138,59 @@ local function xrandr()
 	}).id
 end
 
+-- Show a real clickable popup listing every output arrangement, instead of
+-- the fragile "press the key repeatedly to cycle notifications" approach.
+local menu_instance = nil
+
+local function popup()
+	-- Check wibox.visible (not just nil) since the menu can also close
+	-- itself via Escape or item selection, leaving a stale reference.
+	if menu_instance and menu_instance.wibox.visible then
+		menu_instance:hide()
+		return
+	end
+
+	local items = {}
+	for _, choice in ipairs(menu()) do
+		local label, cmd = choice[1], choice[2]
+		-- awful.menu escapes its label text (only supports "&x" mnemonics,
+		-- not pango markup), so strip the <span> tags meant for naughty.
+		label = label:gsub("</?span[^>]*>", "")
+		items[#items + 1] = {
+			label,
+			function()
+				spawn(cmd, false)
+			end,
+		}
+	end
+
+	if #items == 0 then
+		naughty.notify({ text = "xrandr: no outputs detected", timeout = 4 })
+		return
+	end
+
+	menu_instance = awful_menu({ items = items })
+
+	-- Position top-right, same corner and padding as naughty notifications.
+	local scr = awful_screen.focused()
+	local wa = scr.workarea
+	local padding = naughty.config.padding or 4
+	local width = beautiful.menu_width or 220
+	menu_instance:show({ coords = { x = wa.x + wa.width - width - padding, y = wa.y + padding } })
+
+	menu_instance.wibox.shape = function(cr, w, h)
+		gshape.rounded_rect(cr, w, h, 8)
+	end
+	menu_instance.wibox.opacity = 0.95
+	-- Highlight the first entry immediately so arrow-key navigation has
+	-- visible focus right away instead of requiring an initial keypress.
+	menu_instance:item_enter(1)
+end
+
 return {
 	outputs = outputs,
 	arrange = arrange,
 	menu = menu,
 	xrandr = xrandr,
+	popup = popup,
 }

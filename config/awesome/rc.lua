@@ -181,6 +181,82 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 
 -- }}}
 
+-- {{{ Naughty notifications
+-- Theme-consistent, rounded notifications with a subtle per-urgency accent
+-- border instead of a full-bleed color fill, plus icon-theme-name resolution
+-- (apps like Teams send a bare icon name over dbus, not a file path).
+local dpi = require("beautiful.xresources").apply_dpi
+
+-- Match the system GTK icon theme so icon-name lookups (e.g. Teams sends
+-- "teams-for-linux", not a file path) also search it, not just the sparser
+-- "hicolor" fallback theme. Must run before any icon lookup happens, since
+-- menubar.utils caches the lookup path for the whole session.
+do
+	local f = io.popen("gsettings get org.gnome.desktop.interface icon-theme 2>/dev/null")
+	if f then
+		local name = f:read("*l")
+		f:close()
+		if name then
+			beautiful.icon_theme = name:match("^'(.-)'$") or name
+		end
+	end
+end
+
+naughty.config.defaults.margin = dpi(12)
+naughty.config.defaults.border_width = dpi(2)
+naughty.config.defaults.icon_size = dpi(48)
+naughty.config.defaults.opacity = 0.95
+naughty.config.defaults.shape = function(cr, w, h)
+	gears.shape.rounded_rect(cr, w, h, dpi(8))
+end
+
+naughty.config.notify_callback = function(args)
+	if args.icon and type(args.icon) == "string" and not args.icon:match("^/") then
+		args.icon = menubar.utils.lookup_icon(args.icon) or args.icon
+	end
+	return args
+end
+
+-- naughty.dbus captures references to these preset tables at require-time
+-- (before this file runs), so mutate their fields in place rather than
+-- replacing the tables, or dbus-sourced notifications (Teams, etc.) won't
+-- pick up the changes.
+local function style_preset(preset, overrides)
+	for k, v in pairs(overrides) do
+		preset[k] = v
+	end
+end
+
+style_preset(naughty.config.presets.normal, {
+	bg = beautiful.bg_focus,
+	fg = beautiful.fg_normal,
+	border_color = beautiful.border_focus,
+})
+style_preset(naughty.config.presets.low, {
+	bg = beautiful.bg_focus,
+	fg = beautiful.fg_normal,
+	border_color = beautiful.border_normal,
+})
+style_preset(naughty.config.presets.critical, {
+	bg = beautiful.bg_focus,
+	fg = beautiful.fg_normal,
+	border_color = beautiful.fg_urgent,
+	border_width = dpi(1),
+	timeout = 8,
+})
+
+-- awful.menu popups (e.g. the xrandr output picker): match the same dark,
+-- accented look as the notifications above.
+beautiful.menu_bg_normal = beautiful.bg_focus
+beautiful.menu_fg_normal = beautiful.fg_normal
+beautiful.menu_bg_focus = beautiful.fg_focus
+beautiful.menu_fg_focus = beautiful.bg_normal
+beautiful.menu_border_color = beautiful.border_focus
+beautiful.menu_border_width = dpi(2)
+beautiful.menu_height = dpi(28)
+beautiful.menu_width = dpi(220)
+-- }}}
+
 -- {{{ Tyrannical (dynamic, per-class tagging)
 -- https://github.com/Elv13/tyrannical
 -- Tags are created on demand from client rules instead of being static.
@@ -265,6 +341,15 @@ tyrannical.tags = {
 			"EPDFviewer",
 			"xpdf",
 			"Xpdf",
+		},
+	},
+	{
+		name = "intune",
+		init = true,
+		exclusive = true,
+		layout = awful.layout.suit.max,
+		class = {
+			"intune-portal",
 		},
 	},
 }
@@ -394,23 +479,33 @@ awful.screen.connect_for_each_screen(function(s)
 	beautiful.at_screen_connect(s)
 end)
 
--- Re-probe/apply outputs whenever a monitor is plugged in.
+-- Notify (once) when a new screen appears so you know outputs changed.
+-- `xrandr.menu()` only *builds* a list of arrangement commands, it doesn't
+-- show anything by itself -- use the `xrandr.popup()` keybinding below (or
+-- the dedicated "external monitor only" keybinding) to actually apply one.
 screen.connect_signal("added", function()
-	awful.spawn.with_shell(
-		"ext=$(xrandr --query | awk '/ connected/ && !/eDP/ {print $1; exit}'); "
-			.. 'xrandr --auto --output "$ext" --right-of eDP'
-	)
+	naughty.notify({
+		title = "Monitor added",
+		text = 'Press Mod+§ to choose an arrangement, or Alt+^ for "external only"',
+		timeout = 5,
+	})
 end)
 
 -- {{{ Key bindings
 
 globalkeys = mytable.join(
-	awful.key({ modkey }, "X", function()
-		xrandr.xrandr()
+	-- Clickable popup listing every output arrangement (click one to apply)
+	awful.key({ modkey }, "§", function()
+		xrandr.popup()
 	end, { description = "xrandr menu", group = "hotkeys" }),
 	-- Destroy all notifications
 	awful.key({ "Control" }, "space", function()
 		naughty.destroy_all_notifications()
+		naughty.notify({
+			title = "Notifications cleared",
+			text = "All notifications have been destroyed",
+			timeout = 5,
+		})
 	end, { description = "destroy all notifications", group = "hotkeys" }),
 	-- Take a screenshot
 	-- https://github.com/lcpz/dots/blob/master/bin/screenshot
