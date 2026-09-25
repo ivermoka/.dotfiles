@@ -46,3 +46,6 @@ export PATH="/snap/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+#Rofi
+export PATH=$HOME/.config/rofi/scripts:$PATH
