@@ -771,27 +771,38 @@ globalkeys = mytable.join(
 		awful.spawn(browser)
 	end, { description = "run browser", group = "launcher" }),
 
-	-- Default
-	--[[ Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
-    --]]
-	--[[ dmenu
-    awful.key({ modkey }, "x", function ()
-            os.execute(string.format("dmenu_run -i -fn 'Monospace' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
-            beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
-        end,
-        {description = "show dmenu", group = "launcher"}),
-    --]]
 	-- rofi: fuzzy app search/launcher (like GNOME's Activities search)
 	awful.key({ modkey }, "d", function()
-		awful.spawn("rofi -show drun")
+		awful.spawn.with_shell("~/.config/rofi/launchers/type-3/launcher.sh")
 	end, { description = "application launcher (search apps)", group = "launcher" }),
 
 	-- rofi: window switcher/overview across all tags and screens
 	awful.key({ modkey, "Shift" }, "Tab", function()
-		awful.spawn("rofi -show window")
+		awful.spawn("rofi -show window -theme ~/.config/rofi/applets/type-3/style-3.rasi")
 	end, { description = "window overview (search open windows)", group = "launcher" }),
+
+	-- rofi applets (adi1090x): quick-access menus, also clickable in the top bar
+	awful.key({ modkey, "Shift" }, "b", function()
+		awful.spawn("~/.config/rofi/applets/bin/battery.sh")
+	end, { description = "battery menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "i", function()
+		awful.spawn("~/.config/rofi/applets/bin/brightness.sh")
+	end, { description = "brightness menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "t", function()
+		awful.spawn("~/.config/rofi/applets/bin/mpd.sh")
+	end, { description = "mpd menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "p", function()
+		awful.spawn("~/.config/rofi/applets/bin/powermenu.sh")
+	end, { description = "power menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "u", function()
+		awful.spawn("~/.config/rofi/applets/bin/quicklinks.sh")
+	end, { description = "quick links menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "v", function()
+		awful.spawn("~/.config/rofi/applets/bin/volume.sh")
+	end, { description = "volume menu", group = "widgets" }),
+	awful.key({ modkey, "Shift" }, "s", function()
+		awful.spawn("~/.config/rofi/applets/bin/screenshot.sh")
+	end, { description = "screenshot menu", group = "widgets" }),
 
 	-- Prompt
 	awful.key({ modkey }, "r", function()
