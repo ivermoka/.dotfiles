@@ -18,3 +18,4 @@ ln -sf ~/projects/.dotfiles/config/git/.gitconfig ~/.gitconfig
 
 # Awesome
 ln -s ~/projects/.dotfiles/config/awesome ~/.config/awesome
+ln -s ~/projects/.dotfiles/config/rofi ~/.config/rofi
