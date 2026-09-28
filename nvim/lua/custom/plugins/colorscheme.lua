@@ -7,31 +7,36 @@ return {
 
       themery.setup {
         themes = {
-	{
-		name = 'Carbonfox',
-		colorscheme = 'carbonfox',
-		before = [[ require('nightfox') ]],
-	},
-		{
-		name = 'Nordfox',
-		colorscheme = 'nordfox',
-		before = [[ require('nightfox') ]],
-	},
-	{
-		name = 'Duskfox',
-		colorscheme = 'duskfox',
-		before = [[ require('nightfox') ]],
-	},
-	{
-		name = 'Terafox',
-		colorscheme = 'terafox',
-		before = [[ require('nightfox') ]],
-	},
-	{
-		name = 'Nightfox',
-		colorscheme = 'nightfox',
-		before = [[ require('nightfox') ]],
-	},
+          {
+            name = 'gruvbox',
+            colorscheme = 'gruvbox',
+            before = [[ require('gruvbox').setup() ]],
+          },
+          {
+            name = 'Carbonfox',
+            colorscheme = 'carbonfox',
+            before = [[ require('nightfox') ]],
+          },
+          {
+            name = 'Nordfox',
+            colorscheme = 'nordfox',
+            before = [[ require('nightfox') ]],
+          },
+          {
+            name = 'Duskfox',
+            colorscheme = 'duskfox',
+            before = [[ require('nightfox') ]],
+          },
+          {
+            name = 'Terafox',
+            colorscheme = 'terafox',
+            before = [[ require('nightfox') ]],
+          },
+          {
+            name = 'Nightfox',
+            colorscheme = 'nightfox',
+            before = [[ require('nightfox') ]],
+          },
 
           {
             name = 'Tokyonight Storm',
@@ -156,12 +161,12 @@ return {
         livePreview = true,
       }
 
-      themery.setThemeByName('Tokyonight Storm', true)
+      themery.setThemeByName('gruvbox', true)
     end,
   },
   {
     'EdenEast/nightfox.nvim',
-     lazy = false,
+    lazy = false,
   },
   {
     'folke/tokyonight.nvim',
@@ -169,6 +174,10 @@ return {
   },
   {
     'rebelot/kanagawa.nvim',
+    lazy = false,
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
     lazy = false,
   },
 }
