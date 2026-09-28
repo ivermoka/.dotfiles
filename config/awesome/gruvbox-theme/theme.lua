@@ -316,10 +316,10 @@ theme.si_weather_description_font = font(14)
 
 theme.si_outer_border_color = theme.colors.green
 theme.si_outer_border_width = dpi(0)
--- theme.si_outer_border_shape = function(cr, width, height)
---     gears.shape.partially_rounded_rect(cr, width, height,
---                                        false, false, false, true, 16)
--- end
+theme.si_outer_border_shape = function(cr, width, height)
+    gears.shape.partially_rounded_rect(cr, width, height,
+                                       false, false, false, true, 16)
+end
 theme.si_inner_border_color = theme.colors.black .. "00"
 theme.si_inner_border_width = dpi(0)
 theme.si_inner_bg = theme.colors.black .. "00"
@@ -415,7 +415,17 @@ theme.control.monitor_external_duplicated =
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.colors.white, theme.colors.black)
 
--- Define the icon theme for application icons. If not set then the icons
--- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = "Papirus"
+-- Define the icon theme for application icons: match the actual GTK icon
+-- theme in use (Papirus isn't installed on this system) so icon-name
+-- lookups (e.g. notify_callback in rc.lua) resolve real icons instead of
+-- silently falling back to hicolor only.
+local function gtk_icon_theme()
+    local f = io.popen("gsettings get org.gnome.desktop.interface icon-theme 2>/dev/null")
+    if not f then return "Adwaita" end
+    local name = f:read("*l")
+    f:close()
+    return name and (name:match("^'(.-)'$") or name) or "Adwaita"
+end
+
+theme.icon_theme = gtk_icon_theme()
 return theme

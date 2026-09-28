@@ -45,14 +45,9 @@ local function battery_widget_update()
         local status, charge_str = string.match(stdout, '(%a+)%s+(%d+)')
         local charge = tonumber(charge_str)
         battery_text:set_text(" " .. charge .. "% ")
-		
-		if status == 'Full' then
-			battery.widget:set_visible(false)
-        else
-			battery.widget:set_visible(true)
-		end
+		battery.widget:set_visible(true)
 
-        if status == 'Charging' then
+        if status == 'Full' or status == 'Charging' then
 			battery.widget.fg = beautiful.battery_charging_fg or beautiful.colors.black
 			battery.widget.bg = beautiful.battery_charging_bg or beautiful.colors.green
         else

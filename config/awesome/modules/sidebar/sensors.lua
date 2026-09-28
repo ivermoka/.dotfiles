@@ -21,21 +21,23 @@ local cpu_widget = new_sensors_text_widget("CPU temp: +..°C")
 local gpu_widget = new_sensors_text_widget("GPU temp: +..°C")
 
 local function cpu_update()
-    local command = [[sensors coretemp-isa-0000 -u]]
+    local command = [[sensors k10temp-pci-00c3 -u]]
 
     awful.spawn.easy_async(command, function(stdout)
-        local cpu = stdout:match(": (%d+).0")
-        cpu_widget:set_text("CPU temp: +" .. cpu .. "°C")
+        local cpu = stdout:match("temp1_input:%s*([%d.]+)")
+        if cpu then
+            cpu_widget:set_text(string.format("CPU temp: +%.0f°C", tonumber(cpu)))
+        end
     end)
 end
 
 local function gpu_update()
-    local command = [[nvidia-settings -q gpucoretemp -t]]
+    local command = [[sensors amdgpu-pci-c300 -u]]
 
     awful.spawn.easy_async(command, function(stdout)
-        local gpu = stdout:match("(%d+)")
+        local gpu = stdout:match("temp1_input:%s*([%d.]+)")
         if gpu then
-            gpu_widget:set_text("GPU temp: +" .. gpu .. "°C")
+            gpu_widget:set_text(string.format("GPU temp: +%.0f°C", tonumber(gpu)))
         end
     end)
 end

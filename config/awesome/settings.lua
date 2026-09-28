@@ -42,12 +42,12 @@ settings.monitors = {
 settings.lock_command = "light-locker-command --lock"
 
 -- Put here commands for volume control.
--- SET_VOL_CMD must be with space at the end,
--- because it will be concatenated with number.
+-- Uses wpctl (WirePlumber CLI) since this system runs PipeWire without the
+-- pulseaudio-alsa compat plugin, so `amixer -D pulse` fails outright.
 settings.volume_commands = {
-	GET_VOL_CMD = "amixer -D pulse sget Master",
-	SET_VOL_CMD = "amixer -D pulse sset Master ",
-	TOG_VOL_CMD = "amixer -D pulse sset Master toggle",
+	GET_VOL_CMD = "wpctl get-volume @DEFAULT_AUDIO_SINK@",
+	SET_VOL_CMD = "wpctl set-volume @DEFAULT_AUDIO_SINK@ ",
+	TOG_VOL_CMD = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
 }
 
 -- Change this command, if you use another player.

@@ -12,7 +12,7 @@ local volume = {}
 volume.text_widget = wibox.widget {
 	align = "center",
 	widget = wibox.widget.textbox,
-	text = " ♫..%"
+	text = " 🔊..%"
 }
 
 volume.progressbar_widget = wibox.widget {
@@ -59,9 +59,9 @@ local function update_text_widget(widget, stdout, _, _, _)
 	end
 	local volume = tonumber(string.format("% 3d", level * 100))
 	if muted then
-		widget:set_text("♫MM%")
+		widget:set_text("🔇MM%")
 	else
-		widget:set_text("♫" .. volume .. "%")
+		widget:set_text("🔊" .. volume .. "%")
 	end
 end
 
@@ -125,9 +125,11 @@ function volume.control(cmd, value)
 	elseif cmd == "decrease" then cmd = commands.SET_VOL_CMD .. value .. '%-'
 	elseif cmd == "toggle" then cmd = commands.TOG_VOL_CMD
 	end
-	awful.spawn.easy_async(cmd, function(stdout, stderr, exitreason, exitcode)
+	awful.spawn.easy_async(cmd, function()
+		awful.spawn.easy_async(commands.GET_VOL_CMD, function(stdout, stderr, exitreason, exitcode)
 			update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
 			update_progressbar_widget(volume.progressbar_widget, stdout, stderr, exitreason, exitcode)
+		end)
 	end)
     volume.popup_widget.screen = awful.screen.focused()
 	volume.popup_widget.visible = true
