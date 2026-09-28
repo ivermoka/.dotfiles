@@ -11,10 +11,10 @@ settings.autostart = {}
 -- If you want to change smth else in main menu
 -- you need to edit modules/menus/mainmenu.lua file.
 settings.default_apps = {
-	terminal = "",
-	editor = "",
+	terminal = "Alacritty",
+	editor = "nvim",
 	editor_cmd = "",
-	browser = "",
+	browser = "micorsoft-edge",
 }
 
 -- Set applications which you want to run with Super+Alt+number.
@@ -34,8 +34,8 @@ settings.user = {
 -- Put here monitor names from xrandr command.
 -- It will be used by monitor_toggle script.
 settings.monitors = {
-	internal = "",
-	external = "",
+	internal = "edp",
+	external = "DisplayPort-0",
 }
 
 -- Put here command which will lock your computer.
