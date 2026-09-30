@@ -1,7 +1,6 @@
 local awful = require("awful")
-local gears = require("gears")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 local xrandr = require("modules.tools.xrandr")
@@ -11,9 +10,7 @@ local launcher = settings.launcher
 local lock_command = settings.lock_command
 local apps = settings.default_apps
 
-beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
-
-ignore = {
+local ignore = {
 	"Hibernate",
 	"Logout",
 	"Reboot",
@@ -36,38 +33,20 @@ local menu = {
 		function()
 			awesome.quit()
 		end,
-		beautiful.logout_icono,
+		beautiful.logout_icon,
 	},
-	{
-		"XRandr menu",
-		function()
-			xrandr.popup()
-		end,
-	},
+	{ "Display layout", xrandr.popup },
+	{ "Wi-Fi", function() require("modules.widgets.wifi").show_menu() end },
+	{ "Audio mixer", function() awful.spawn("pavucontrol") end },
+	{ "Screenshot (area)", function() awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh -s") end },
 }
 
 local powermenu = {
-	{
-		"Lock",
-		function()
-			awful.spawn(lock_command)
-		end,
-		beautiful.lock_icon,
-	},
-	{
-		"Reboot",
-		function()
-			awful.spawn("reboot")
-		end,
-		beautiful.reboot_icon,
-	},
-	{
-		"Shutdown",
-		function()
-			awful.spawn("shutdown now")
-		end,
-		beautiful.shutdown_icon,
-	},
+	{ "Lock", function() awful.spawn(lock_command) end, beautiful.lock_icon },
+	{ "Suspend", function() awful.spawn("systemctl suspend") end },
+	{ "Logout", function() awesome.quit() end, beautiful.logout_icon },
+	{ "Reboot", function() awful.spawn("systemctl reboot") end, beautiful.reboot_icon },
+	{ "Shutdown", function() awful.spawn("systemctl poweroff") end, beautiful.shutdown_icon },
 }
 
 local appmenu = require("modules.tools.menu")

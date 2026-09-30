@@ -5,12 +5,10 @@ local beautiful = require("beautiful")
 local dpi = require("beautiful.xresources").apply_dpi
 
 -- Import widgets
-local weather = require("modules.sidebar.weather")
 local calendar = require("modules.sidebar.calendar")
 local ramswap = require("modules.sidebar.ramswap")
 local cpu = require("modules.sidebar.cpu")
 local sensors = require("modules.sidebar.sensors")
-local control_center = require("modules.sidebar.control_center")
 
 -- Import helpers
 local helpers = require("modules.sidebar.helpers")
@@ -47,21 +45,14 @@ local separator = wibox.widget({
 -- Decorator arguments: decorator(w, vmargin, hmargin, fg)
 popup:setup({
 	{
-		helpers.decorator(weather.widget, dpi(10)),
-		layout = wibox.layout.fixed.vertical,
-	},
-	{
 		helpers.decorator(cpu.widget),
 		helpers.decorator(ramswap.widget.ram, nil, nil, beautiful.colors.green),
 		helpers.decorator(sensors.widget),
 
-		separator,
-
-		helpers.decorator(control_center.widget),
-
 		spacing = dpi(4),
 		layout = wibox.layout.fixed.vertical,
 	},
+	nil,
 	{
 		separator,
 
@@ -89,7 +80,6 @@ function sidebar.toggle()
 		timer_callback()
 
 		-- Update this only when open sidebar
-		weather.update()
 		calendar.update()
 
 		local fscreen = awful.screen.focused()

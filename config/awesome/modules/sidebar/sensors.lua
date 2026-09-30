@@ -42,7 +42,7 @@ local function gpu_update()
     end)
 end
 
-function update()
+local function update()
     cpu_update()
     gpu_update()
 end

@@ -114,50 +114,6 @@ local function menu()
 	return menu
 end
 
--- Display xrandr notifications from choices
-local state = { cid = nil }
-
-local function naughty_destroy_callback(reason)
-	if
-		reason == naughty.notificationClosedReason.expired
-		or reason == naughty.notificationClosedReason.dismissedByUser
-	then
-		local action = state.index and state.menu[state.index - 1][2]
-		if action then
-			spawn(action, false)
-			state.index = nil
-		end
-	end
-end
-
-local function xrandr()
-	-- Build the list of choices
-	if not state.index then
-		state.menu = menu()
-		state.index = 1
-	end
-
-	-- Select one and display the appropriate notification
-	local label, action
-	local next = state.menu[state.index]
-	state.index = state.index + 1
-
-	if not next then
-		label = "Keep the current configuration"
-		state.index = nil
-	else
-		label, action = next[1], next[2]
-	end
-	state.cid = naughty.notify({
-		text = label,
-		icon = icon_path,
-		timeout = 4,
-		screen = mouse.screen,
-		replaces_id = state.cid,
-		destroy = naughty_destroy_callback,
-	}).id
-end
-
 -- Show a real clickable popup listing every output arrangement, instead of
 -- the fragile "press the key repeatedly to cycle notifications" approach.
 local menu_instance = nil
@@ -211,6 +167,5 @@ return {
 	outputs = outputs,
 	arrange = arrange,
 	menu = menu,
-	xrandr = xrandr,
 	popup = popup,
 }

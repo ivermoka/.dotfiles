@@ -5,42 +5,21 @@ local settings = {}
 -- can use ~/.xprofile file.
 -- Read more: https://wiki.archlinux.org/index.php/Xprofile
 settings.autostart = {
-	"Alacritty",
-	-- "microsoft-edge",
-	"intune-agent",
-	"microsoft-teams",
+	"alacritty",
+	"/opt/microsoft/msedge/microsoft-edge --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --app-url=https://teams.microsoft.com/v2/?clientType=pwa",
 }
 
--- Set default apps:
--- This commands will be used in main menu.
--- If you want to change smth else in main menu
--- you need to edit modules/menus/mainmenu.lua file.
 settings.default_apps = {
-	terminal = "Alacritty",
-	editor = "nvim",
-	editor_cmd = "",
-	browser = "microsoft-edge",
+	terminal = "alacritty",
 }
 
--- Set applications which you want to run with Super+Alt+number.
+-- Apps launched with Super+F<n> (keep under 7, F7 is the display menu) and listed in the main menu.
 settings.launcher = {
-	-- 'appliction1',
-	-- 'appliction2',
-	-- ...
-}
-
--- Set yout API key and city id for weather widget.
--- More info: https://openweathermap.org/
-settings.user = {
-	api_key = "",
-	city_id = "",
-}
-
--- Put here monitor names from xrandr command.
--- It will be used by monitor_toggle script.
-settings.monitors = {
-	internal = "edp",
-	external = "DisplayPort-0",
+	"microsoft-edge",
+	"nautilus",
+	"pavucontrol",
+	"arandr",
+	"nm-connection-editor",
 }
 
 -- Put here command which will lock your computer.

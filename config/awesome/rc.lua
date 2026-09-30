@@ -22,8 +22,10 @@ local terminal = settings.default_apps.terminal
 
 -- Start autostart application
 for _, app in ipairs(settings.autostart) do
-	awful.spawn.once(app)
+	awful.spawn.once(app, {})
 end
+-- Lock on suspend/lid close (daemon has no window, so guard with pgrep).
+awful.spawn.with_shell("pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000")
 
 -- Handle runtime errors after startup
 do
@@ -75,8 +77,13 @@ tag.connect_signal("request::default_layouts", function()
 	})
 end)
 
+local fehbg = os.getenv("HOME") .. "/.fehbg"
 local function set_wallpaper(s)
-	awful.spawn.with_shell("~/.fehbg", false)
+	if gears.filesystem.file_readable(fehbg) then
+		awful.spawn.with_shell(fehbg)
+	else
+		gears.wallpaper.maximized(gears.filesystem.get_configuration_dir() .. "images/wallpaper.jpg", s)
+	end
 end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
@@ -145,7 +152,7 @@ awful.screen.connect_for_each_screen(function(s)
 			awful.layout.inc(1)
 		end),
 		awful.button({}, 2, function()
-			awful.tag.togglemfpol(t)
+			awful.tag.togglemfpol()
 		end),
 		awful.button({}, 3, function()
 			awful.layout.inc(-1)
@@ -189,7 +196,6 @@ awful.screen.connect_for_each_screen(function(s)
 		screen = s,
 		filter = awful.widget.tasklist.filter.currenttags,
 		buttons = tasklist_buttons,
-		update_function = list_update,
 		layout = {
 			spacing = beautiful.tasklist_spacing or dpi(8),
 			layout = wibox.layout.flex.horizontal,
@@ -267,7 +273,7 @@ local globalkeys = gears.table.join(
 
 	----------------------{ AWESOME }--------------------------------------------
 	awful.key({ modkey }, "space", function()
-		awful.spawn([[ rofi -show combi -modes combi -combi-modes "window,drun" -show-icons -width 30 -lines 8]])
+		awful.spawn([[ rofi -show combi -modes combi -combi-modes "window,drun" -show-icons]])
 	end, { description = "Run rofi launcher", group = "Awesome" }),
 
 	awful.key({ modkey, "Shift" }, "r", function()
@@ -343,15 +349,15 @@ local globalkeys = gears.table.join(
 	end, { description = "Mute/Unmute volume", group = "Volume control" }),
 
 	awful.key({}, "XF86AudioMicMute", function()
-		command =
+		awful.spawn.with_shell(
 			[[pactl list sources | grep -oP "Name: \S+" | grep "input" | cut -d' ' -f2 | xargs -I{} pactl set-source-mute {} toggle]]
-		awful.spawn.with_shell(command)
+		)
 	end, { description = "Toggle mute on all microphones", group = "Volume control" }),
 
 	awful.key({ "Shift" }, "XF86AudioMicMute", function()
-		command =
+		awful.spawn.with_shell(
 			[[pactl list sources | grep -oP "Name: \S+" | grep "input" | cut -d' ' -f2 | xargs -I{} pactl set-source-mute {} false]]
-		awful.spawn.with_shell(command)
+		)
 	end, { description = "Unmute all microphones", group = "Volume control" }),
 
 	--------------------------{ BRIGHTNESS }----------------------------------
@@ -373,13 +379,17 @@ local globalkeys = gears.table.join(
 
 	----------------------{ PRINTSCREEN }--------------------------------------------
 
-	awful.key({ "Ctrl" }, "Print", nil, function()
-		awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh", false)
-	end, { description = "Make screenshot of fullscreen", group = "Screenshot" }),
+	awful.key({}, "Print", nil, function()
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh -s", false)
+	end, { description = "Screenshot selected area/window", group = "Screenshot" }),
+
+	awful.key({ "Control" }, "Print", nil, function()
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh", false)
+	end, { description = "Screenshot full screen", group = "Screenshot" }),
 
 	awful.key({ "Shift" }, "Print", nil, function()
-		awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh -s", false)
-	end, { description = "Make screenshot of selected area", group = "Screenshot" }),
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh -s", false)
+	end, { description = "Screenshot selected area/window", group = "Screenshot" }),
 
 	----------------------{ PLAYER }--------------------------------------------
 
@@ -397,21 +407,24 @@ local globalkeys = gears.table.join(
 
 	----------------------{ TAGS }--------------------------------------------
 	awful.key({ modkey }, "p", function()
-		awful.tag.togglemfpol(t)
+		awful.tag.togglemfpol()
 	end, { description = "Toggle master fill police", group = "Tag management" }),
 
 	--awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "Go to previous tag", group = "Tag management"}),
 
 	awful.key({ modkey }, "-", function()
-		awful.tag.setgap(awful.tag.getgap(t) - 5)
+		awful.tag.incgap(-5)
 	end, { description = "Decrease gaps", group = "Tag management" }),
 
 	awful.key({ modkey }, "=", function()
-		awful.tag.setgap(awful.tag.getgap(t) + 5)
+		awful.tag.incgap(5)
 	end, { description = "Increase gaps", group = "Tag management" }),
 
 	awful.key({ modkey }, "0", function()
-		awful.tag.setgap(0)
+		local t = awful.screen.focused().selected_tag
+		if t then
+			t.gap = 0
+		end
 	end, { description = "Set zero gaps", group = "Tag management" }),
 
 	awful.key({ modkey }, "i", function()
@@ -519,14 +532,8 @@ local globalkeys = gears.table.join(
 	end, { description = "Move focused window on next screen", group = "Screens management" }),
 
 	awful.key({ modkey }, "F7", function()
-		awful.spawn.with_shell(
-			gears.filesystem.get_configuration_dir()
-				.. "scripts/monitor_toggle.sh "
-				.. settings.monitors.internal
-				.. " "
-				.. settings.monitors.external
-		)
-	end, { description = "Toggle monitors script", group = "Screens management" }),
+		modules.tools.xrandr.popup()
+	end, { description = "Display layout menu", group = "Screens management" }),
 
 	awful.key({ modkey }, "u", function()
 		awful.client.urgent.jumpto()
@@ -561,7 +568,7 @@ for i = 1, 9 do
 			if tag then
 				awful.tag.viewtoggle(tag)
 			end
-		end, { descriptiond = "Toggle tag", group = "Tag management" }),
+		end, { description = "Toggle tag", group = "Tag management" }),
 
 		-- Move client to tag.
 		awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
@@ -742,89 +749,10 @@ awful.rules.rules = {
 		properties = { titlebars_enabled = false },
 	},
 	{
-		rule_any = { class = { "qgis", "QGIS3" } },
-		properties = { titlebars_enabled = true },
-	},
-	{
 		rule_any = { class = { "todoist", "Todoist" } },
 		properties = {
-			tag = screen[1].tags[8],
 			placement = awful.placement.top_right + awful.placement.stretch_down,
 			width = dpi(420),
-		},
-	},
-	{
-		rule_any = { class = { "turtl", "Turtl" } },
-		properties = {
-			tag = screen[1].tags[8],
-			width = dpi(420),
-		},
-	},
-	{
-		rule_any = {
-			class = { "microsoft teams - preview", "Microsoft Teams - Preview" },
-		},
-		properties = {
-			titlebars_enabled = false,
-			focus = false,
-			floating = true,
-			tag = screen[1].tags[7],
-			placement = awful.placement.no_offscreen + awful.placement.top_right,
-		},
-	},
-	{
-		rule = { name = "Microsoft Teams Notification" },
-		properties = {
-			floating = true,
-			ontop = true,
-			focus = false,
-			focusable = false,
-		},
-	},
-	{
-		rule = { name = "galculator" },
-		properties = { floating = true, ontop = true },
-	},
-	{
-		rule = { name = "Media viewer" },
-		properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true },
-	},
-
-	-- Rules for applications which I use with my tag configuration
-	{
-		rule = { name = "Telegram" },
-		rule_any = {
-			class = { "telegram-desktop", "TelegramDesktop" },
-		},
-		properties = {
-			floating = true,
-			sticky = true,
-			skip_taskbar = true,
-			--tag = screen[1].tags[2]
-		},
-	},
-	{
-		rule_any = { class = { "Mail", "Thunderbird", "thunderbird" } },
-		properties = {
-			tag = screen[1].tags[8],
-		},
-	},
-	{
-		rule_any = { class = { "spotify", "Spotify" } },
-		properties = {
-			tag = screen[1].tags[2],
-		},
-	},
-	{
-		rule_any = { class = { "discord" } },
-		properties = {
-			tag = screen[1].tags[7],
-		},
-	},
-	{
-		rule_any = { class = { "qbittorrent", "qBittorrent" } },
-		properties = {
-			tag = screen[1].tags[5],
 		},
 	},
 }
@@ -836,7 +764,7 @@ client.connect_signal("manage", function(c)
 	if not awesome.startup then
 		awful.client.setslave(c)
 	end
-	if not startup and not c.size_hints.user_position and not c.size_hints.program_position then
+	if not awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
 		awful.placement.no_offscreen(c)
 		--awful.placement.no_overlap(c)
 	end

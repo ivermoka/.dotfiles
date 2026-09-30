@@ -33,7 +33,7 @@ sourcing/reloading the relevant tool:
   rules, wibar). It must call `beautiful.init(... "gruvbox-theme/theme.lua")`
   **before** `require("modules")`, because widgets read `beautiful.colors` at
   require-time. User-tunable values (default apps, autostart, launcher apps,
-  monitor names, weather API, lock command) live in `settings.lua` — prefer
+  lock command, volume/player commands) live in `settings.lua` — prefer
   adding knobs there over hardcoding in `rc.lua`. Components are aggregated
   via `modules/init.lua` → `modules/<group>/init.lua` tables (`menus`, `tools`,
   `widgets`, `sidebar`); a new widget must be registered in its group's

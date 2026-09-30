@@ -4,8 +4,6 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 
 local mainmenu      = require("modules.menus.mainmenu")
-local clientmenu    = require("modules.menus.clientmenu")
-local tagnames      = require("modules.tools.tagnames")
 
 local menu_button = {}
 

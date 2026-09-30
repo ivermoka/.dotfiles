@@ -44,7 +44,7 @@ local time_to_end = STATE.WORK + 1
 function pomodoro.update_widget()
     time_to_end = time_to_end - 1
 
-    new_text = string.format(" %02.0f:%02.0f ", math.floor(time_to_end / 60), time_to_end % 60)
+    local new_text = string.format(" %02.0f:%02.0f ", math.floor(time_to_end / 60), time_to_end % 60)
     text_widget:set_text(new_text)
 
     if time_to_end <= 0 then

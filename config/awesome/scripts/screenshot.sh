@@ -1,55 +1,14 @@
 #!/bin/bash
-screenshots_dir=$HOME/Pictures/Screenshots
-time=`date +%Y-%m-%d-%H-%M-%S`
-image_path=$screenshots_dir"/"$time".png"
-options=""
+# Usage: screenshot.sh [-s]   (-s = select area/window)
+dir="$HOME/Pictures/Screenshots"
+mkdir -p "$dir"
+img="$dir/$(date +%Y-%m-%d-%H-%M-%S).png"
 
-edit_action() {
-	gimp $image_path 2> /dev/null &
-}
-
-delete_action() {
-    rm $image_path
-}
-
-
-if [ ! -d $screenshots_dir ]; then
-    mkdir -p $screenshots_dir
-    dunstify --timeout 3000 "Maim" "Screenshots dir has been created: $screenshots_dir"
-fi
-
-case $1 in
-	"-s")
-		options+="-s"
-		;;
-esac
-
-# Actually take screenshot
-maim --hidecursor $options $image_path
-
-# Copy screenshot to clipboard too
-xclip -i $image_path -selection clipboard -t image/png
-
-if [ -f $image_path ]
-then
-    action=$(dunstify --timeout=5000\
-             --action="delete,Delete"\
-             --action="dismiss,Dismiss"\
-             --action="edit,Edit"\
-             --icon="$image_path"\
-             "Maim"\
-             "Screenshot saved!")
-
-    case $action in
-        "delete")
-            delete_action
-            ;;
-        "edit")
-            edit_action
-            ;;
-        *)
-            ;;
-    esac
+if [ "$1" = "-s" ]; then
+	scrot -s -f "$img"
 else
-	dunstify --timeout 3000 "Maim" "Something goes wrong!"
-fi
+	scrot "$img"
+fi || exit 1
+
+xclip -selection clipboard -t image/png -i "$img"
+notify-send -i "$img" "Screenshot" "Saved and copied: $img"

@@ -6,6 +6,8 @@ local gears		= require("gears")
 local watch		= require("awful.widget.watch")
 
 local battery = {}
+local notification
+local warned = false
 
 local battery_text = wibox.widget{
 	align = "center",
@@ -48,13 +50,15 @@ local function battery_widget_update()
 		battery.widget:set_visible(true)
 
         if status == 'Full' or status == 'Charging' then
+			warned = false
 			battery.widget.fg = beautiful.battery_charging_fg or beautiful.colors.black
 			battery.widget.bg = beautiful.battery_charging_bg or beautiful.colors.green
         else
 			if charge <= 10 then
 				battery.widget.fg = beautiful.battery_discharging_low_fg or beautiful.colors.black
 				battery.widget.bg = beautiful.battery_discharging_low_bg or beautiful.colors.red
-				if status ~= 'Charging' then
+				if not warned then
+					warned = true
 					show_battery_warning()
 				end
 			elseif charge > 10 and charge <= 40 then

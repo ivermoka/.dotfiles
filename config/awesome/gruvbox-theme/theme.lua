@@ -311,8 +311,6 @@ theme.volume_bar_shape = function(cr, width, height)
 end
 
 -- System info widget
-theme.si_weather_temp_font = font(16)
-theme.si_weather_description_font = font(14)
 
 theme.si_outer_border_color = theme.colors.green
 theme.si_outer_border_width = dpi(0)
@@ -347,9 +345,6 @@ theme.battery_discharging_medium_fg = theme.colors.black
 theme.battery_discharging_medium_bg = theme.colors.yellow
 theme.battery_discharging_low_fg = theme.colors.black
 theme.battery_discharging_low_bg = theme.colors.red
-
--- Monitor control widget
-theme.monitor_contorl_icon_size = dpi(56)
 
 -- Create title bar icons
 local recolor = gears.color.recolor_image
@@ -401,16 +396,6 @@ theme.layout_tile = recolor(theme_path .. "icons/layouts/tile.png", layout_icon_
 -- theme.layout_centermaster   = recolor(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
 -- theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
 -- theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
-
-local monitor_controls_color = theme.colors.grey
-theme.control = {}
-theme.control.monitor_reset = recolor(theme_path .. "icons/monitor_control/monitor_reset.png", monitor_controls_color)
-theme.control.monitor_rotated =
-	recolor(theme_path .. "icons/monitor_control/monitor_rotated.png", monitor_controls_color)
-theme.control.monitor_external_rotated =
-	recolor(theme_path .. "icons/monitor_control/monitor_external_rotated.png", monitor_controls_color)
-theme.control.monitor_external_duplicated =
-	recolor(theme_path .. "icons/monitor_control/monitor_external_duplicated.png", monitor_controls_color)
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.colors.white, theme.colors.black)

@@ -2,18 +2,7 @@ local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 
-local notify = require("naughty").notify
-
 local tray = {}
-
--- For checking if cursor is around tray
-local scr_g = screen.primary.geometry
--- Coordinates of upper right corner (where the widget should be)
-local corner = {
-    x = scr_g.x + scr_g.width,
-    y = scr_g.y
-}
-local max_dist = (scr_g.width^2 + scr_g.height^2) ^ 0.5 / 5
 
 local tray_widget = wibox.widget {
 	widget = wibox.widget.systray(),
@@ -45,9 +34,11 @@ tray.timer = gears.timer({
 	callback = function()
         -- Get coordinates of the cursor
         -- and hide tray if mouse is far from it
+        -- Geometry read here, not at require time, so it follows monitor changes.
+        local g = screen.primary.geometry
         local mg = mouse.coords()
-        local dist = ((mg.x - corner.x)^2 + (mg.y - corner.y)^2)^0.5
-        if dist > max_dist then
+        local dist = ((mg.x - g.x - g.width)^2 + (mg.y - g.y)^2)^0.5
+        if dist > (g.width^2 + g.height^2)^0.5 / 5 then
             tray_widget:set_visible(false)
             tray.timer:stop()
         end

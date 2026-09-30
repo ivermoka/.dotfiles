@@ -1,17 +1,15 @@
 local awful     = require("awful")
 local beautiful = require("beautiful")
-local tagnames  = require("modules.tools.tagnames")
 
 local function create_client_menu(c)
-    local tags = awful.screen.focused().tags
-    local names = tagnames.read(c.screen)
+    local tags = c.screen.tags
 
     local move_to_tag = {}
     local add_to_tag = {}
 
     for i = 1, #tags do
-        table.insert(move_to_tag, {names[i], function() c:move_to_tag(tags[i]) end})
-        table.insert(add_to_tag, {names[i], function() c:toggle_tag(tags[i]) end})
+        table.insert(move_to_tag, {tags[i].name, function() c:move_to_tag(tags[i]) end})
+        table.insert(add_to_tag, {tags[i].name, function() c:toggle_tag(tags[i]) end})
     end
 
     local task_menu = {
@@ -40,14 +38,13 @@ local current = {
 }
 
 local function toggle_menu(c)
-    if c ~= current.client then
-        if current.menu then
-            current.menu:hide()
-        end
-        current.menu = create_client_menu(c)
-        current.client = c
+    if current.menu and current.menu.wibox.visible then
+        current.menu:hide()
+        if c == current.client then return end
     end
-    current.menu:toggle()
+    current.menu = create_client_menu(c)
+    current.client = c
+    current.menu:show()
 end
 
 return toggle_menu
