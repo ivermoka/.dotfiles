@@ -4,7 +4,12 @@ local settings = {}
 -- If you looking for way to start applications with X you
 -- can use ~/.xprofile file.
 -- Read more: https://wiki.archlinux.org/index.php/Xprofile
-settings.autostart = {}
+settings.autostart = {
+	"Alacritty",
+	-- "microsoft-edge",
+	"intune-agent",
+	"microsoft-teams",
+}
 
 -- Set default apps:
 -- This commands will be used in main menu.
@@ -14,7 +19,7 @@ settings.default_apps = {
 	terminal = "Alacritty",
 	editor = "nvim",
 	editor_cmd = "",
-	browser = "micorsoft-edge",
+	browser = "microsoft-edge",
 }
 
 -- Set applications which you want to run with Super+Alt+number.

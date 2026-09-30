@@ -238,6 +238,8 @@ awful.screen.connect_for_each_screen(function(s)
 				myseparator,
 				modules.widgets.player.widget,
 				myseparator,
+				modules.widgets.wifi.widget,
+				myseparator,
 				modules.widgets.battery.widget,
 				myseparator,
 				modules.widgets.volume.text_widget,
@@ -309,6 +311,10 @@ local globalkeys = gears.table.join(
 		modules.widgets.battery.show_status()
 	end, { description = "Show battery status", group = "Awesome" }),
 
+	awful.key({ modkey }, "w", function()
+		modules.widgets.wifi.show_menu()
+	end, { description = "Show Wi-Fi menu", group = "Awesome" }),
+
 	awful.key({ modkey, "Control", "Shift" }, "t", function()
 		for _, c in ipairs(client.get()) do
 			awful.titlebar.toggle(c)
@@ -350,20 +356,20 @@ local globalkeys = gears.table.join(
 
 	--------------------------{ BRIGHTNESS }----------------------------------
 	awful.key({}, "XF86MonBrightnessUp", function()
-		awful.spawn("bash -c 'xbacklight -inc 10'", false)
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brightness.sh up", false)
 	end, { description = "Increase screen brightness", group = "Brightness control" }),
 
 	awful.key({}, "XF86MonBrightnessDown", function()
-		awful.spawn("bash -c 'xbacklight -dec 10'", false)
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brightness.sh down", false)
 	end, { description = "Decrease screen brightness", group = "Brightness control" }),
 
 	awful.key({ "Shift" }, "XF86MonBrightnessUp", function()
-		awful.spawn("bash -c 'xbacklight -set 100'", false)
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brightness.sh set 100", false)
 	end, { description = "Set screen brightness on 100", group = "Brightness control" }),
 
 	awful.key({ "Shift" }, "XF86MonBrightnessDown", function()
-		awful.spawn("bash -c 'xbacklight -set 0.1'", false)
-	end, { description = "Set screen brightness on 0", group = "Brightness control" }),
+		awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brightness.sh set 1", false)
+	end, { description = "Set screen brightness to minimum", group = "Brightness control" }),
 
 	----------------------{ PRINTSCREEN }--------------------------------------------
 
