@@ -304,8 +304,8 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
 	end, { description = "Python", group = "Applications" }),
 
 	----------------------{ AWESOME }--------------------------------------------
-	awful.key({ modkey }, "r", function()
-		awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8]])
+	awful.key({ modkey }, "space", function()
+		awful.spawn([[ rofi -show combi -modes combi -combi-modes "window,drun" -show-icons -width 30 -lines 8]])
 	end, { description = "Run rofi launcher", group = "Awesome" }),
 
 	awful.key({ modkey, "Shift" }, "r", function()

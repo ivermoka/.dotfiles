@@ -16,3 +16,4 @@ alias run='mvn spring-boot:run'
 alias ccompile='mvn clean compile'
 alias cinstall='mvn clean install'
 alias integ="./src/main/scripts/run-integration.sh"
+alias eod="mvn spring-boot:run '-Dspring-boot.run.arguments=EOD'"

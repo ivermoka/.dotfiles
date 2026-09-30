@@ -39,7 +39,7 @@ settings.monitors = {
 }
 
 -- Put here command which will lock your computer.
-settings.lock_command = "light-locker-command --lock"
+settings.lock_command = "i3lock -c 000000"
 
 -- Put here commands for volume control.
 -- Uses wpctl (WirePlumber CLI) since this system runs PipeWire without the
