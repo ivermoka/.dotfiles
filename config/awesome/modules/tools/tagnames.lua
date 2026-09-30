@@ -36,7 +36,7 @@ tyrannical.tags = {
         init = true,
         exclusive = true,
         -- icon = "~net.png", -- Use this icon for the tag (uncomment with a real path)
-        screen = screen.count() > 1 and 2 or 1, -- Setup on screen 2 if there is more than 1 screen, else on screen 1
+        screen = 2, -- Screen 2 if it exists, else the last screen (clamped by patched tyrannical)
         layout = awful.layout.suit.max, -- Use the max layout
         class = {
             "microsoft-edge",
@@ -48,7 +48,7 @@ tyrannical.tags = {
         init = true,
         exclusive = true,
         -- icon = "~net.png", -- Use this icon for the tag (uncomment with a real path)
-        screen = screen.count() > 1 and 2 or 1, -- Setup on screen 2 if there is more than 1 screen, else on screen 1
+        screen = 2, -- Screen 2 if it exists, else the last screen (clamped by patched tyrannical)
         layout = awful.layout.suit.max, -- Use the max layout
         -- Teams runs as an Edge PWA: WM_CLASS is just "Microsoft-edge" for
         -- every Edge window, but WM_INSTANCE is the app's unique

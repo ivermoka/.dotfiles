@@ -263,46 +263,6 @@ local globalkeys = gears.table.join(
 		awful.spawn(terminal, { floating = true })
 	end, { description = "open a floating terminal", group = "Applications" }),
 
-	awful.key({ "Control", "Mod1" }, "w", function()
-		script = gears.filesystem.get_configuration_dir() .. "scripts/trans_clip.sh"
-		awful.spawn.with_shell(script)
-	end, { description = "Translate text from selection", group = "Translation" }),
-
-	awful.key({ "Control", "Mod1" }, "e", function()
-		awful.prompt.run({
-			prompt = "Text for translation: ",
-			textbox = mypromptbox.widget,
-			exe_callback = function(text)
-				awful.spawn.easy_async([[
-                            bash -c 'trans -tl ru -brief "]] .. text .. [["'
-                    ]], function(stdout)
-					naughty.notify({
-						title = "Translation:",
-						text = stdout,
-						timeout = 0,
-						max_height = dpi(400),
-					})
-				end)
-			end,
-		})
-	end, { description = "Translate text", group = "Translation" }),
-
-	awful.key({ "Control", "Mod1" }, "c", function()
-		local python_cmd = [[
-            ipython -i -c "import numpy as np
-from platform import python_version
-print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
-            ]]
-		--            local python_cmd = [[
-		--            python -i -c "import numpy as np
-		--from platform import python_version
-		--print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
-		--            ]]
-		awful.spawn.spawn("kitty -e " .. python_cmd, {
-			floating = true,
-		})
-	end, { description = "Python", group = "Applications" }),
-
 	----------------------{ AWESOME }--------------------------------------------
 	awful.key({ modkey }, "space", function()
 		awful.spawn([[ rofi -show combi -modes combi -combi-modes "window,drun" -show-icons -width 30 -lines 8]])
@@ -317,10 +277,6 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
 	end, { description = "Lock", group = "Awesome" }),
 
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "Reload awesome", group = "Awesome" }),
-
-	--awful.key({ modkey, "Shift"   }, "q", awesome.quit, {description = "Quit awesome", group = "Awesome"}),
-
-	awful.key({ modkey }, "space", mykeyboardlayout.next_layout, { description = "Change language", group = "Awesome" }),
 
 	awful.key({ modkey, "Shift" }, "a", hotkeys_popup.show_help, { description = "Show help", group = "Awesome" }),
 

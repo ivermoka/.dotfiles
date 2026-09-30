@@ -11,22 +11,42 @@ local beautiful = require("beautiful")
 -- A path to a fancy icon
 local icon_path = ""
 
--- Get active outputs
+-- Get connected outputs, plus each output's preferred mode/rate (the one
+-- marked "+"). `--auto` silently fails to enable some outputs (e.g. amdgpu
+-- DisplayPort), so an explicit mode is used when available.
 local function outputs()
-	local outputs = {}
+	local outputs, modes = {}, {}
+	local current
 	local xrandr = io.popen("xrandr -q --current")
 
 	if xrandr then
 		for line in xrandr:lines() do
-			local output = line:match("^([%w-]+) connected ")
+			local output = line:match("^([%w-]+) connected")
 			if output then
 				outputs[#outputs + 1] = output
+				current = output
+			elseif line:match("^%S") then
+				current = nil
+			elseif current and not modes[current] then
+				local mode, rest = line:match("^%s+(%d+x%d+%S*)%s+(.*)$")
+				local rate = rest and rest:match("([%d.]+)%*?%s*%+")
+				if rate then
+					modes[current] = { mode = mode, rate = rate }
+				end
 			end
 		end
 		xrandr:close()
 	end
 
-	return outputs
+	return outputs, modes
+end
+
+local function enable_args(o, modes)
+	local m = modes[o]
+	if m then
+		return " --output " .. o .. " --mode " .. m.mode .. " --rate " .. m.rate
+	end
+	return " --output " .. o .. " --auto"
 end
 
 local function arrange(out)
@@ -57,14 +77,14 @@ end
 -- Build available choices
 local function menu()
 	local menu = {}
-	local out = outputs()
+	local out, modes = outputs()
 	local choices = arrange(out)
 
 	for _, choice in pairs(choices) do
 		local cmd = "xrandr"
 		-- Enabled outputs
 		for i, o in pairs(choice) do
-			cmd = cmd .. " --output " .. o .. " --auto"
+			cmd = cmd .. enable_args(o, modes)
 			if i > 1 then
 				cmd = cmd .. " --right-of " .. choice[i - 1]
 			end
