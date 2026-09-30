@@ -20,10 +20,18 @@ local settings = require("settings")
 -- Set default apps
 local terminal = settings.default_apps.terminal
 
--- Start autostart application
-for _, app in ipairs(settings.autostart) do
-	awful.spawn.once(app, {})
-end
+-- Start autostart apps without a matching window (delayed so restart has re-managed existing clients).
+gears.timer.delayed_call(function()
+	for _, app in ipairs(settings.autostart) do
+		local running = false
+		for _, c in ipairs(client.get()) do
+			running = running or awful.rules.match(c, app[2])
+		end
+		if not running then
+			awful.spawn(app[1])
+		end
+	end
+end)
 -- Lock on suspend/lid close (daemon has no window, so guard with pgrep).
 awful.spawn.with_shell("pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000")
 

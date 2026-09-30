@@ -4,9 +4,13 @@ local settings = {}
 -- If you looking for way to start applications with X you
 -- can use ~/.xprofile file.
 -- Read more: https://wiki.archlinux.org/index.php/Xprofile
+-- { command, rule }: skipped if a window matching rule already exists.
 settings.autostart = {
-	"alacritty",
-	"/opt/microsoft/msedge/microsoft-edge --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --app-url=https://teams.microsoft.com/v2/?clientType=pwa",
+	{ "alacritty", { class = "Alacritty" } },
+	{
+		"/opt/microsoft/msedge/microsoft-edge --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --app-url=https://teams.microsoft.com/v2/?clientType=pwa",
+		{ instance = "crx__cifhbcnohmdccbgoicgdjpfamggdegmo" },
+	},
 }
 
 settings.default_apps = {
