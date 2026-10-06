@@ -33,7 +33,9 @@ gears.timer.delayed_call(function()
 	end
 end)
 -- Lock on suspend/lid close (daemon has no window, so guard with pgrep).
-awful.spawn.with_shell("pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000")
+awful.spawn.with_shell(
+	"pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000"
+)
 
 -- Handle runtime errors after startup
 do
@@ -258,8 +260,6 @@ awful.screen.connect_for_each_screen(function(s)
 				myseparator,
 				modules.widgets.volume.text_widget,
 				myseparator,
-				mykeyboardlayout,
-				myseparator,
 				mytextclock,
 				myseparator,
 				modules.widgets.tray.widget,
@@ -281,8 +281,13 @@ local globalkeys = gears.table.join(
 
 	----------------------{ AWESOME }--------------------------------------------
 	awful.key({ modkey }, "space", function()
-		awful.spawn([[ rofi -show combi -modes combi -combi-modes "window,drun" -show-icons]])
+		awful.spawn.with_shell("~/.config/rofi/launchers/type-3/launcher.sh")
 	end, { description = "Run rofi launcher", group = "Awesome" }),
+
+	-- rofi: window switcher/overview across all tags and screens
+	awful.key({ modkey, "Shift" }, "Tab", function()
+		awful.spawn.with_shell("~/.config/rofi/launchers/type-3/windows.sh")
+	end, { description = "window overview (search open windows)", group = "launcher" }),
 
 	awful.key({ modkey, "Shift" }, "r", function()
 		mypromptbox:run()
