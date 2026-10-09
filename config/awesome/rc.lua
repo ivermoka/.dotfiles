@@ -16,7 +16,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.
 
 local modules = require("modules")
 local settings = require("settings")
-
+local volume_widget = require("awesome-wm-widgets.pactl-widget.volume")
 -- Set default apps
 local terminal = settings.default_apps.terminal
 
@@ -250,7 +250,9 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				-- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-				modules.widgets.pomodoro.widget,
+				github_prs_widget({
+					reviewer = "ivermoka",
+				}),
 				myseparator,
 				modules.widgets.player.widget,
 				myseparator,
@@ -258,7 +260,7 @@ awful.screen.connect_for_each_screen(function(s)
 				myseparator,
 				modules.widgets.battery.widget,
 				myseparator,
-				modules.widgets.volume.text_widget,
+				volume_widget(),
 				myseparator,
 				mytextclock,
 				myseparator,
@@ -287,7 +289,7 @@ local globalkeys = gears.table.join(
 	-- rofi: window switcher/overview across all tags and screens
 	awful.key({ modkey, "Shift" }, "Tab", function()
 		awful.spawn.with_shell("~/.config/rofi/launchers/type-3/windows.sh")
-	end, { description = "window overview (search open windows)", group = "launcher" }),
+	end, { description = "window overview (search open windows)", group = "Awesome" }),
 
 	awful.key({ modkey, "Shift" }, "r", function()
 		mypromptbox:run()
@@ -342,23 +344,15 @@ local globalkeys = gears.table.join(
 
 	----------------------{ SOUND }--------------------------------------------
 	awful.key({}, "XF86AudioRaiseVolume", function()
-		modules.widgets.volume.control("increase", 2)
+		volume_widget:inc(5)
 	end, { description = "Increase volume by 2", group = "Volume control" }),
 
-	awful.key({ "Shift" }, "XF86AudioRaiseVolume", function()
-		modules.widgets.volume.control("increase", 10)
-	end, { description = "Increase volume by 10", group = "Volume control" }),
-
 	awful.key({}, "XF86AudioLowerVolume", function()
-		modules.widgets.volume.control("decrease")
+		volume_widget:dec(5)
 	end, { description = "Decrease volume by 2", group = "Volume control" }),
 
-	awful.key({ "Shift" }, "XF86AudioLowerVolume", function()
-		modules.widgets.volume.control("decrease", 10)
-	end, { description = "Decrease volume by 10", group = "Volume control" }),
-
 	awful.key({}, "XF86AudioMute", function()
-		modules.widgets.volume.control("toggle")
+		volume_widget:toggle()
 	end, { description = "Mute/Unmute volume", group = "Volume control" }),
 
 	awful.key({}, "XF86AudioMicMute", function()
