@@ -7,6 +7,8 @@ alias v="nvim"
 alias v.="nvim ."
 alias la="ls -a"
 alias javav="sudo update-alternatives --config java"
+alias co="copilot"
+alias ..="cd .."
 
 # Helpers for Spring Boot / Flyway / Maven
 alias clean='mvn flyway:clean "-Dflyway.url=jdbc:oracle:thin:@//localhost:1521/orcl" "-Dflyway.user=appdata" "-Dflyway.password=app" "-Dflyway.cleanDisabled=false"'
