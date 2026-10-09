@@ -1,9 +1,9 @@
 local awful = require("awful")
 local tyrannical = require("tyrannical")
 
--- {{{ Tyrannical (dynamic, per-class tagging)
+-- {{{ Tyrannical (grouped application tagging)
 -- https://github.com/Elv13/tyrannical
--- Tags are created on demand from client rules instead of being static.
+-- Fixed groups prevent unmatched applications from creating per-class tags.
 -- Edit the "class"/"instance" lists below to match the apps you actually use.
 
 tyrannical.settings.default_layout = awful.layout.suit.tile
@@ -14,6 +14,7 @@ tyrannical.settings.block_children_focus_stealing = true -- block popups from st
 tyrannical.tags = {
     {
         name = "Term", -- Call the tag "Term"
+        index = 1,
         init = true, -- Load the tag on startup
         exclusive = true, -- Refuse any other type of clients (by classes)
         screen = { 1, 2 }, -- Create this tag on screen 1 and screen 2
@@ -33,6 +34,7 @@ tyrannical.tags = {
     },
     {
         name = "Internet",
+        index = 2,
         init = true,
         exclusive = true,
         -- icon = "~net.png", -- Use this icon for the tag (uncomment with a real path)
@@ -44,7 +46,30 @@ tyrannical.tags = {
         },
     },
     {
+        name = "Work",
+        index = 3,
+        init = true,
+        exclusive = true,
+        screen = 1,
+        layout = awful.layout.suit.max,
+        class = {
+            "gnome-text-editor",
+            "org.gnome.TextEditor",
+            "org.remmina.Remmina",
+            "Code",
+            "jetbrains-idea",
+            "jetbrains-idea-ce",
+            "Assistant",
+            "Okular",
+            "Evince",
+            "org.gnome.Evince",
+            "EPDFviewer",
+            "xpdf",
+        },
+    },
+    {
         name = "Teams",
+        index = 4,
         init = true,
         exclusive = true,
         -- icon = "~net.png", -- Use this icon for the tag (uncomment with a real path)
@@ -62,7 +87,8 @@ tyrannical.tags = {
     },
     {
         name = "Files",
-        init = false,
+        index = 5,
+        init = true,
         exclusive = true,
         screen = 1,
         layout = awful.layout.suit.tile,
@@ -72,28 +98,34 @@ tyrannical.tags = {
         },
     },
     {
-        name = "Doc",
-        init = false, -- This tag wont be created at startup, but will be when one of the
-        -- client in the "class" section will start. It will be created on
-        -- the client startup screen
+        name = "Media",
+        index = 6,
+        init = true,
         exclusive = true,
+        screen = 2,
         layout = awful.layout.suit.max,
         class = {
-            "Assistant",
-            "Okular",
-            "Evince",
-            "EPDFviewer",
-            "xpdf",
-            "Xpdf",
+            "Spotify",
+            "vlc",
+            "mpv",
         },
     },
     {
-        name = "intune",
+        name = "Misc",
+        index = 7,
         init = true,
         exclusive = true,
+        fallback = true,
+        screen = { 1, 2 },
         layout = awful.layout.suit.max,
         class = {
             "intune-portal",
+            "Drawing",
+            "zenity",
+            "pavucontrol",
+            "Nm-connection-editor",
+            "Arandr",
+            "Lxappearance",
         },
     },
 }

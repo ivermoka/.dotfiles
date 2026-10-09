@@ -17,6 +17,11 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.
 local modules = require("modules")
 local settings = require("settings")
 local volume_widget = require("awesome-wm-widgets.pactl-widget.volume")
+local github_prs_widget = require("awesome-wm-widgets.github-prs-widget")
+local jira_widget = require("awesome-wm-widgets.jira-widget.jira")
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+local fs_widget = require("awesome-wm-widgets.fs-widget.fs-widget")
 -- Set default apps
 local terminal = settings.default_apps.terminal
 
@@ -98,7 +103,7 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-local mytextclock = wibox.widget.textclock("%R")
+local mytextclock = wibox.widget.textclock("%a %d %b  %R")
 mytextclock:buttons(gears.table.join(awful.button({}, 1, function()
 	modules.sidebar.toggle()
 end)))
@@ -127,8 +132,7 @@ end)))
 awful.screen.connect_for_each_screen(function(s)
 	set_wallpaper(s)
 
-	-- Tags are created by tyrannical (modules/tools/tagnames.lua) based on
-	-- client rules, not statically here.
+	-- Application groups and the Misc fallback are defined in modules/tools/tagnames.lua.
 	-- Buttons for taglist and taglist widget
 	local taglist_buttons = gears.table.join(
 		awful.button({}, 1, function(t)
@@ -250,22 +254,62 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				-- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-				github_prs_widget({
-					reviewer = "ivermoka",
-				}),
-				myseparator,
-				modules.widgets.player.widget,
-				myseparator,
-				modules.widgets.wifi.widget,
-				myseparator,
-				modules.widgets.battery.widget,
-				myseparator,
-				volume_widget(),
-				myseparator,
-				mytextclock,
-				myseparator,
-				modules.widgets.tray.widget,
-				layout = wibox.layout.fixed.horizontal,
+				spacing = dpi(16),
+				{
+					-- Work
+					github_prs_widget({ reviewer = "ivermoka" }),
+					jira_widget({ host = "https://tietobanktech.atlassian.net" }),
+					spacing = dpi(6),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				{
+					-- Media
+					modules.widgets.player.widget,
+					volume_widget(),
+					spacing = dpi(6),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				{
+					-- System resources
+					{
+						wibox.widget.textbox("CPU"),
+						cpu_widget(settings.resources.cpu),
+						spacing = dpi(4),
+						layout = wibox.layout.fixed.horizontal,
+					},
+					{
+						wibox.widget.textbox("RAM"),
+						ram_widget(settings.resources.ram),
+						spacing = dpi(4),
+						layout = wibox.layout.fixed.horizontal,
+					},
+					{
+						wibox.widget.textbox("Disk"),
+						fs_widget(settings.resources.filesystem),
+						spacing = dpi(4),
+						layout = wibox.layout.fixed.horizontal,
+					},
+					spacing = dpi(8),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				{
+					-- Connectivity and power
+					modules.widgets.wifi.widget,
+					modules.widgets.battery.create(),
+					spacing = dpi(8),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				{
+					-- Tray and clock
+					modules.widgets.tray.widget,
+					{
+						mytextclock,
+						right = dpi(12),
+						widget = wibox.container.margin,
+					},
+					spacing = dpi(8),
+					layout = wibox.layout.fixed.horizontal,
+				},
 			},
 			layout = wibox.layout.align.horizontal,
 		})

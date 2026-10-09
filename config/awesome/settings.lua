@@ -1,3 +1,4 @@
+local beautiful = require("beautiful")
 local settings = {}
 
 -- Put there only apps which you need to start with awesome
@@ -15,6 +16,36 @@ settings.autostart = {
 
 settings.default_apps = {
 	terminal = "alacritty",
+}
+
+settings.battery = {
+	show_current_level = true,
+	timeout = 30,
+	path_to_icons = "/usr/share/icons/Adwaita/symbolic/status/",
+	warning_msg_title = "Low battery",
+	warning_msg_text = "Battery below 15%. Connect the charger.",
+}
+
+settings.resources = {
+	cpu = { timeout = 5, width = 40, enable_kill_button = false },
+	ram = {
+		timeout = 10,
+		widget_height = 18,
+		widget_width = 18,
+		color_used = beautiful.colors.aqua,
+		color_free = beautiful.colors.darkGrey,
+		color_buf = beautiful.colors.grey,
+	},
+	filesystem = {
+		mounts = { "/" },
+		refresh_rate = 60,
+		widget_width = 40,
+		widget_bar_color = beautiful.colors.aqua,
+		widget_background_color = beautiful.colors.darkGrey,
+		popup_bg = beautiful.bg_normal,
+		popup_bar_color = beautiful.colors.aqua,
+		popup_border_color = beautiful.colors.grey,
+	},
 }
 
 -- Apps launched with Super+F<n> (keep under 7, F7 is the display menu) and listed in the main menu.
