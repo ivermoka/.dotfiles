@@ -11,7 +11,7 @@ local STATUS_CMD = { "bash", "-c", "nmcli radio wifi; nmcli -t -f IN-USE,SIGNAL,
 local text = wibox.widget({
 	align = "center",
 	widget = wibox.widget.textbox,
-	text = "📶 ..",
+	text = "📶",
 })
 
 wifi.widget = wibox.widget({
@@ -52,15 +52,14 @@ end
 function wifi.update()
 	awful.spawn.easy_async(STATUS_CMD, function(stdout)
 		if stdout:match("^disabled") then
-			text:set_text("📶 off")
+			text:set_text("📵")
 			return
 		end
 		local active = parse_networks(stdout)[1]
 		if active and active.active then
-			local name = #active.ssid > 15 and active.ssid:sub(1, 14) .. "…" or active.ssid
-			text:set_text("📶 " .. name .. " " .. active.signal .. "%")
+			text:set_text("📶")
 		else
-			text:set_text("📶 --")
+			text:set_text("⚠️")
 		end
 	end)
 end

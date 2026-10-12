@@ -19,7 +19,7 @@ settings.default_apps = {
 }
 
 settings.battery = {
-	show_current_level = true,
+	show_current_level = false,
 	timeout = 30,
 	path_to_icons = "/usr/share/icons/Adwaita/symbolic/status/",
 	warning_msg_title = "Low battery",

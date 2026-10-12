@@ -6,7 +6,8 @@ local widgets = {
 	volume			= require("modules.widgets.volume"),
     pomodoro        = require("modules.widgets.pomodoro"),
     taglist         = require("modules.widgets.taglist"),
-	wifi			= require("modules.widgets.wifi")
+	wifi			= require("modules.widgets.wifi"),
+	cos				= require("modules.widgets.cos")
 }
 
 return widgets

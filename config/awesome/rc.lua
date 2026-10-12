@@ -256,35 +256,30 @@ awful.screen.connect_for_each_screen(function(s)
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(16),
 				{
-					-- Work
+					-- Optional: work, VPN, media
 					github_prs_widget({ reviewer = "ivermoka" }),
 					jira_widget({ host = "https://tietobanktech.atlassian.net" }),
-					spacing = dpi(6),
-					layout = wibox.layout.fixed.horizontal,
-				},
-				{
-					-- Media
+					modules.widgets.cos.widget,
 					modules.widgets.player.widget,
-					volume_widget(),
-					spacing = dpi(6),
+					spacing = dpi(8),
 					layout = wibox.layout.fixed.horizontal,
 				},
 				{
 					-- System resources
 					{
-						wibox.widget.textbox("CPU"),
+						wibox.widget.textbox("⚙️"),
 						cpu_widget(settings.resources.cpu),
 						spacing = dpi(4),
 						layout = wibox.layout.fixed.horizontal,
 					},
 					{
-						wibox.widget.textbox("RAM"),
+						wibox.widget.textbox("🧮"),
 						ram_widget(settings.resources.ram),
 						spacing = dpi(4),
 						layout = wibox.layout.fixed.horizontal,
 					},
 					{
-						wibox.widget.textbox("Disk"),
+						wibox.widget.textbox("💾"),
 						fs_widget(settings.resources.filesystem),
 						spacing = dpi(4),
 						layout = wibox.layout.fixed.horizontal,
@@ -293,7 +288,8 @@ awful.screen.connect_for_each_screen(function(s)
 					layout = wibox.layout.fixed.horizontal,
 				},
 				{
-					-- Connectivity and power
+					-- System controls
+					volume_widget(),
 					modules.widgets.wifi.widget,
 					modules.widgets.battery.create(),
 					spacing = dpi(8),
