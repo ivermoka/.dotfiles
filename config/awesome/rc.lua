@@ -22,6 +22,8 @@ local jira_widget = require("awesome-wm-widgets.jira-widget.jira")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 local fs_widget = require("awesome-wm-widgets.fs-widget.fs-widget")
+local xrandr = require("modules.tools.xrandr")
+
 -- Set default apps
 local terminal = settings.default_apps.terminal
 
@@ -578,8 +580,8 @@ local globalkeys = gears.table.join(
 		end
 	end, { description = "Move focused window on next screen", group = "Screens management" }),
 
-	awful.key({ modkey }, "F7", function()
-		modules.tools.xrandr.popup()
+	awful.key({ modkey, "Shift" }, "s", function()
+		xrandr.popup()
 	end, { description = "Display layout menu", group = "Screens management" }),
 
 	awful.key({ modkey }, "u", function()
