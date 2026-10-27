@@ -40,9 +40,10 @@ gears.timer.delayed_call(function()
 	end
 end)
 -- Lock on suspend/lid close (daemon has no window, so guard with pgrep).
-awful.spawn.with_shell(
-	"pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000"
-)
+awful.spawn.with_shell("pgrep -u $USER -x xss-lock >/dev/null || xss-lock --transfer-sleep-lock -- dm-tool lock")
+
+-- Disable X idle blanking/DPMS (avoids idle-triggered re-locks).
+awful.spawn.with_shell("xset s off -dpms")
 
 -- Handle runtime errors after startup
 do
@@ -292,6 +293,7 @@ awful.screen.connect_for_each_screen(function(s)
 				{
 					-- System controls
 					volume_widget(),
+					modules.widgets.bluetooth.widget,
 					modules.widgets.wifi.widget,
 					modules.widgets.battery.create(),
 					spacing = dpi(8),
@@ -377,7 +379,9 @@ local globalkeys = gears.table.join(
 	awful.key({ modkey }, "w", function()
 		modules.widgets.wifi.show_menu()
 	end, { description = "Show Wi-Fi menu", group = "Awesome" }),
-
+	awful.key({ modkey, "Shift" }, "b", function()
+		modules.widgets.bluetooth.show_menu()
+	end, { description = "Show bluetooth popup", group = "Awesome" }),
 	awful.key({ modkey, "Control", "Shift" }, "t", function()
 		for _, c in ipairs(client.get()) do
 			awful.titlebar.toggle(c)

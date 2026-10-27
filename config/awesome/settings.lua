@@ -9,8 +9,8 @@ local settings = {}
 settings.autostart = {
 	{ "alacritty", { class = "Alacritty" } },
 	{
-		"/opt/microsoft/msedge/microsoft-edge --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo --app-url=https://teams.microsoft.com/v2/?clientType=pwa",
-		{ instance = "crx__cifhbcnohmdccbgoicgdjpfamggdegmo" },
+		"/opt/microsoft/msedge/microsoft-edge --profile-directory=Default --app-id=ompifgpmddkgmclendfeacglnodjjndh --app-url=https://teams.cloud.microsoft/?clientType=pwa",
+		{ instance = "crx__ompifgpmddkgmclendfeacglnodjjndh" },
 	},
 }
 
@@ -58,7 +58,7 @@ settings.launcher = {
 }
 
 -- Put here command which will lock your computer.
-settings.lock_command = "i3lock -c 000000"
+settings.lock_command = "dm-tool lock"
 
 -- Put here commands for volume control.
 -- Uses wpctl (WirePlumber CLI) since this system runs PipeWire without the
