@@ -1,6 +1,4 @@
+# fallback when no agent is available (gcr-ssh-agent is set in exports.zsh)
 if [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent -s)" > /dev/null
 fi
-
-# load key if not already loaded
-ssh-add -l >/dev/null 2>&1 || ssh-add ~/.ssh/id_ed25519 >/dev/null 2>&1

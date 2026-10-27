@@ -36,3 +36,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 #Rofi
 export PATH=$HOME/.config/rofi/scripts:$PATH
+
+# ssh - gcr-ssh-agent keeps the passphrase in gnome-keyring
+[ -S "$XDG_RUNTIME_DIR/gcr/ssh" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
