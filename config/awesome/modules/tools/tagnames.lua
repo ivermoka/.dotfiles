@@ -50,7 +50,6 @@ tyrannical.tags = {
 		index = 3,
 		init = true,
 		exclusive = true,
-		-- icon = "~net.png", -- Use this icon for the tag (uncomment with a real path)
 		screen = 2, -- Screen 2 if it exists, else the last screen (clamped by patched tyrannical)
 		layout = awful.layout.suit.floating,
 		-- Teams and Slack run as Edge PWAs: WM_CLASS is just "Microsoft-edge" for
@@ -72,7 +71,7 @@ tyrannical.tags = {
 		init = true,
 		exclusive = true,
 		screen = 1,
-		layout = awful.layout.suit.max,
+		layout = awful.layout.suit.floating,
 		class = {
 			"gnome-text-editor",
 			"org.gnome.TextEditor",
@@ -109,7 +108,7 @@ tyrannical.tags = {
 		exclusive = true,
 		fallback = true,
 		screen = { 1, 2 },
-		layout = awful.layout.suit.max,
+		layout = awful.layout.suit.floating,
 		class = {
 			"intune-portal",
 			"Drawing",
